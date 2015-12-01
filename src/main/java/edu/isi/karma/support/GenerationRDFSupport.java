@@ -39,6 +39,16 @@ public class GenerationRDFSupport {
         return instance;
     }
 
+    /**
+     * Method to generate triple file with Web-Karma API from a local file:JSON,CSV,XML,AVRO.
+     * @param karmaModel the path to the model R2RML turtle of Karma e.g. "karma_files/model/".
+     * @param fileOftriple the path to the output file of triple e.g. "karma_files/output/".
+     * @param conn the Connection java SQL to a Database.
+     * @param nameOfTable String name of the table to triplify with the karma Model.
+     * @return
+     * @throws IOException throw if the File not exists.
+     * @throws SQLException throw if there is some problem with the Connection.
+     */
     public File generateRDF(File karmaModel,File fileOftriple,Connection conn,String nameOfTable)
             throws IOException, SQLException {
         DatabaseMetaData dbm = conn.getMetaData();
@@ -280,11 +290,24 @@ public class GenerationRDFSupport {
         return array;
     }
 
+
+    /**
+     * Method to get the Karma DBType from the information of a java Connection SQL.
+     * @param conn the Connection object to a database.
+     * @return the DbType of the Database.
+     * @throws SQLException throw if any error occurred with the SQL Connection.
+     */
     private DBType getDbType(Connection conn) throws SQLException {
         DatabaseMetaData dbm = conn.getMetaData();
         return getDbType(dbm);
     }
 
+    /**
+     * Method to get the Karma DBType from the information of a java Connection SQL.
+     * @param dbm the DatabaseMetaData of the Connection.
+     * @return the DbType of the Database.
+     * @throws SQLException throw if any error occurred with the SQL Connection.
+     */
     private DBType getDbType(DatabaseMetaData dbm) throws SQLException {
         String type = dbm.getDatabaseProductName();
         if(type.equals(DBType.MySQL.name())|| type.equals("MySQL"))return DBType.MySQL;
@@ -295,7 +318,12 @@ public class GenerationRDFSupport {
         else return null;
     }
 
-    private String getHostFromUrl(String url) {
+    /**
+     * Method to get the String name of the host by the String URL of the jdbc driver.
+     * @param url the String of the URL of the jdbc driver.
+     * @return the String name of the host.
+     */
+    public static String getHostFromUrl(String url) {
         String regexForHostAndPort = "[.\\w]+:\\d+";
         Pattern hostAndPortPattern = Pattern.compile(regexForHostAndPort);
         Matcher matcher = hostAndPortPattern.matcher(url);
@@ -311,7 +339,12 @@ public class GenerationRDFSupport {
         throw new IllegalArgumentException("couldn't find pattern '" + regexForHostAndPort + "' in '" + url + "'");
     }
 
-    private Integer getPortFromUrl(String url) {
+    /**
+     * Method to get the Integer value of the port by the String URL of the jdbc driver.
+     * @param url the String of the URL of the jdbc driver.
+     * @return the String name of the host.
+     */
+    public static Integer getPortFromUrl(String url) {
         String regexForHostAndPort = "[.\\w]+:\\d+";
         Pattern hostAndPortPattern = Pattern.compile(regexForHostAndPort);
         Matcher matcher = hostAndPortPattern.matcher(url);
@@ -327,7 +360,12 @@ public class GenerationRDFSupport {
         throw new IllegalArgumentException("couldn't find pattern '" + regexForHostAndPort + "' in '" + url + "'");
     }
 
-     private String getUsernameFromUrl(String url){
+    /**
+     * Method to get the String value of the username by the String URL of the jdbc driver.
+     * @param url the String of the URL of the jdbc driver.
+     * @return the String name of the host.
+     */
+    public static String getUsernameFromUrl(String url){
         Pattern pat = Pattern.compile("(\\&|\\?|\\=|\\/)?(user|username)(\\=)(.*?)(\\&|\\?|\\=|\\/|\\s)+", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pat.matcher(url  + " ");
         if(matcher.find())  {
@@ -337,7 +375,12 @@ public class GenerationRDFSupport {
         throw new IllegalArgumentException("couldn't find pattern '" + pat.toString() + "' in '" + url + "'");
     }
 
-    private String getPasswordFromUrl(String url){
+    /**
+     * Method to get the String value of the password by the String URL of the jdbc driver.
+     * @param url the String of the URL of the jdbc driver.
+     * @return the String name of the host.
+     */
+    public static String getPasswordFromUrl(String url){
         Pattern pat = Pattern.compile("(\\&|\\?|\\=|\\/)?(pass|password)(\\=)(.*?)(\\&|\\?|\\=|\\/|\\s)+", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pat.matcher(url + " ");
         if(matcher.find())  {

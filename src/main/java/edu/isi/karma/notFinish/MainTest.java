@@ -5,6 +5,7 @@ import edu.isi.karma.support.ApplyHistorySupport;
 import edu.isi.karma.util.DBType;
 import edu.isi.karma.util.FileUtil;
 import edu.isi.karma.util.SparqlUtil;
+import edu.isi.karma.webserver.KarmaException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,11 +20,11 @@ import java.util.List;
  */
 public class MainTest {
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws IOException, KarmaException {
         test2();
     }
 
-    private static void test2() throws IOException {
+    private static void test2() throws IOException, KarmaException {
         File r2rml = new File("" +
                 "C:\\Users\\tenti\\Desktop\\Marco Utility\\TESI 2015-09-30\\Web-Karma-20151130\\karma-modelSupport\\src\\main\\java\\edu\\isi\\karma\\test\\R2RML_infodocument-model_2015-07-08.ttl");
         ApplyHistorySupport support =  ApplyHistorySupport.getInstance();

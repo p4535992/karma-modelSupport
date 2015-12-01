@@ -16,11 +16,11 @@ What i do until now? Almost nothing i just started this project so any help or a
 ### Generates triple offline through the API Java Web-karma, in a more friendly manner.
 
 ###### With Connection
-Very simple trick for generate file of triples from a java.sql.Connection,  <\br>
+Very simple trick for generate file of triples from a java.sql.Connection,
 required the dependency to the 'karma-offline' module of Web-Karma
 ```java
 
-    Connection already existent to a Database.
+    Connection conn = ....; //already existent to a Database.
     File r2rml = new File("" + "C:\\...\\R2RML_infodocument-model_2015-07-08.ttl");
     File output = new File("C:\\...\\output.n3");
     String tableName = "infodocument_2015_09_18";
@@ -41,7 +41,7 @@ required the dependency to the 'karma-offline' module of Web-Karma
     generateRDF(File karmaModel,InputStream inputData,File fileOfTriple)
     generateRDF(File karmaModel,String inputData,File fileOfTriple)
 ```
-NOTE: The File of triple generated is always on N-Triples format, but you can just use API like Jena and Sesame for    <\br>
+NOTE: The File of triple generated is always on N-Triples format, but you can just use API like Jena and Sesame for
 convert to yours favorite format.
 
 
@@ -49,7 +49,10 @@ convert to yours favorite format.
 
 NOTE: Not Finished yet.
 
-For now require 'karma-common','karma-commands','karma-jdbc','karma-util'
+IMPORTANT: Need to convert the acces to the method 'extractHistoryFromModel' of
+the class ApplyHistoryFromR2RMLModelCommand to public. 
+
+For now require 'karma-common','karma-commands','karma-jdbc','karma-util','karma-offline'
 
 ###### Read and print WorkSheetHistory from R2RML File (work)
 ```java
