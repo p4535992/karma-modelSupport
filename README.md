@@ -1,21 +1,21 @@
 karma-modelSupport
 ================================
 
-### NOTE: This repository  project is not ready yet, it's was created as a meeting place for other people   <\br>
-### who want to help, and for get advice or tips on the code.
+##### NOTE: This repository  project is not ready yet, it's was created as a meeting place for other people,
+##### who want to help, and for get advice or tips on the code.
 
-###I do not own any rights to the code Web-Karma, this repository seeks only to create new functions to be integrated with it.
+#### I do not own any rights to the code Web-Karma, this repository seeks only to create new functions to be integrated with it.
 
-The ultimate goal of this project is to provide a Web-Karma Java API for creating files in drive levels  <\br>
+The ultimate goal of this project is to provide a Web-Karma Java API for creating files in drive levels
 R2RML format turtle, at the moment Karma allows the creation only through the graphical interface of a server (e.g. jetty).
 
 All the information on Web-Karma can be found on this page [Web-karma](https://github.com/usc-isi-i2/Web-Karma).
 
-What i do until now? <\br>
+What i do until now? Almost nothing i just started this project so any help or advise is welcome
 
-## Generates triple offline through the API Java Web-karma, in a more friendly manner.
+### Generates triple offline through the API Java Web-karma, in a more friendly manner.
 
-#### With Connection
+###### With Connection
 Very simple trick for generate file of triples from a java.sql.Connection,  <\br>
 required the dependency to the 'karma-offline' module of Web-Karma
 ```java
@@ -28,14 +28,14 @@ required the dependency to the 'karma-offline' module of Web-Karma
     GenerationRDFSupport support = GenerationRDFSupport.getInstance();
     support.generateRDF(r2rml,output,conn,tablename;
 ```
-Other friendly constructor from database:
+###### Other friendly constructor from database:
 ```java
     generateRDF(File karmaModel,File fileOftriple,DBType dbTypeKarma,String hostname,String username,
                 String password,String port,String nameOfDatabase,String nameOfTable)
 
     generateRDF(File karmaModel,File fileOftriple,Connection conn,String nameOfTable)
 ```
-Other friendly constructor from file:
+###### Other friendly constructor from file:
 ```java
     generateRDF(File karmaModel,File inputData,File fileOfTriple)
     generateRDF(File karmaModel,InputStream inputData,File fileOfTriple)
@@ -45,13 +45,13 @@ NOTE: The File of triple generated is always on N-Triples format, but you can ju
 convert to yours favorite format.
 
 
-## Read/Create/Update the WorkSheetHistory of a File R2RML (.ttl) or from the Jetty Server by HttpServletRequest.
+### Read/Create/Update the WorkSheetHistory of a File R2RML (.ttl) or from the Jetty Server by HttpServletRequest.
 
 NOTE: Not Finished yet.
 
 For now require 'karma-common','karma-commands','karma-jdbc','karma-util'
 
-#### Read and print WorkSheetHistory from R2RML File (work)
+###### Read and print WorkSheetHistory from R2RML File (work)
 ```java
         File r2rml = new File("C:\\...\\R2RML_infodocument-model_2015-07-08.ttl");
         ApplyHistorySupport support =  ApplyHistorySupport.getInstance();
@@ -60,15 +60,17 @@ For now require 'karma-common','karma-commands','karma-jdbc','karma-util'
         FileUtil.writePrettyPrintedJSONObjectToFile(new JSONObject().put("WorkSheetHistory", (Object) array), outputJson);
 ```
 
-#### Read and print WorkSheetHistory from Jetty Server (must be full tested)
+###### Read and print WorkSheetHistory from Jetty Server (must be full tested)
 ```java
         HttpServletrequest request = ...
         WorkSpace workspace = ...;
         ApplyHistorySupport support =  ApplyHistorySupport.getInstance();
         JSONArray array = support.extractWorkSheetHistory(request,workspace);
+        File outputJson = new File( "C:\\...\\output.json");
+        FileUtil.writePrettyPrintedJSONObjectToFile(new JSONObject().put("WorkSheetHistory", (Object) array), outputJson);
 ```
 
-#TODO
+### TODO
 
 - Create a method for generated a new Default JSONARRAY WorkSheetHistory to populate with specific parameter.
 - Write The Basic Properties of a R2RML file of Web-karma.
