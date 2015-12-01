@@ -16,7 +16,9 @@ What i do until now? Almost nothing i just started this project so any help or a
 ### Generates triple offline through the API Java Web-karma, in a more friendly manner.
 
 ###### With Connection
-Very simple trick for generate file of triples from a java.sql.Connection,
+
+Very simple trick for generate file of triples from a java.sql.Connection,  
+
 required the dependency to the 'karma-offline' module of Web-Karma
 ```java
 
@@ -41,7 +43,9 @@ required the dependency to the 'karma-offline' module of Web-Karma
     generateRDF(File karmaModel,InputStream inputData,File fileOfTriple)
     generateRDF(File karmaModel,String inputData,File fileOfTriple)
 ```
-NOTE: The File of triple generated is always on N-Triples format, but you can just use API like Jena and Sesame for
+
+NOTE: The File of triple generated is always on N-Triples format, but you can just use API like Jena and Sesame for    
+
 convert to yours favorite format.
 
 
