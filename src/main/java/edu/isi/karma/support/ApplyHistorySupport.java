@@ -1,42 +1,27 @@
 package edu.isi.karma.support;
 
-import edu.isi.karma.controller.command.Command;
-import edu.isi.karma.controller.command.CommandException;
-import edu.isi.karma.controller.command.CommandType;
-import edu.isi.karma.controller.command.ICommand;
 import edu.isi.karma.controller.command.worksheet.ApplyHistoryFromR2RMLModelCommand;
 import edu.isi.karma.controller.command.worksheet.ApplyHistoryFromR2RMLModelCommandFactory;
-import edu.isi.karma.controller.command.worksheet.ApplyModelFromURLCommand;
 import edu.isi.karma.controller.history.HistoryJSONEditor;
-import edu.isi.karma.controller.update.ErrorUpdate;
-import edu.isi.karma.controller.update.InfoUpdate;
 import edu.isi.karma.controller.update.UpdateContainer;
-import edu.isi.karma.kr2rml.KR2RMLVersion;
-import edu.isi.karma.kr2rml.mapping.KR2RMLMapping;
-import edu.isi.karma.kr2rml.mapping.R2RMLMappingIdentifier;
-import edu.isi.karma.kr2rml.mapping.WorksheetR2RMLJenaModelParser;
 import edu.isi.karma.rep.Worksheet;
 import edu.isi.karma.rep.Workspace;
 import edu.isi.karma.rep.WorkspaceManager;
 import edu.isi.karma.util.FileUtil;
-import edu.isi.karma.util.JSONUtil;
-import edu.isi.karma.view.VWorkspace;
-import edu.isi.karma.webserver.KarmaException;
+
+
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.rio.RDFParseException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
+
 
 /**
- * Created by 4535992 on 01/12/2015.
+ * Created by 4535992 on 30/11/2015.
+ * @author 4535992.
+ * @version 2015-11-30.
  */
 public class ApplyHistorySupport {
 
