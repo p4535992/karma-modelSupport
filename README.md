@@ -20,7 +20,7 @@ Very simple trick for generate file of triples from a java.sql.Connection,
 required the dependency to the 'karma-offline' module of Web-Karma
 ```java
 
-    Connection already existent to a Database.
+    Connection conn = ....; //already existent to a Database.
     File r2rml = new File("" + "C:\\...\\R2RML_infodocument-model_2015-07-08.ttl");
     File output = new File("C:\\...\\output.n3");
     String tableName = "infodocument_2015_09_18";
