@@ -1,0 +1,63 @@
+@prefix vann: <http://purl.org/vocab/vann/#> .
+@prefix geo-pos: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix umbel-ac: <http://umbel.org/umbel/ac/> .
+@prefix schema: <http://schema.org/#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix sw-vocab: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix ff: <http://factforge.net/> .
+@prefix music-ont: <http://purl.org/ontology/mo/> .
+@prefix dc-term: <http://purl.org/dc/terms/> .
+@prefix om: <http://www.ontotext.com/owlim/> .
+@prefix opencyc-en: <http://sw.opencyc.org/2008/06/10/concept/en/> .
+@prefix factbook: <http://www.daml.org/2001/12/factbook/factbook-ont#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix pext: <http://proton.semanticweb.org/protonext#> .
+@prefix otn: <http://www.pms.ifi.uni-muenchen.de/OTN#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix ot: <http://www.ontotext.com/> .
+@prefix onto: <http://www.ontotext.com/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix yago: <http://mpii.de/yago/resource/> .
+@prefix gis: <http://www.opengis.net/ont/geosparql#> .
+@prefix umbel: <http://umbel.org/umbel#> .
+@prefix pkm: <http://proton.semanticweb.org/protonkm#> .
+@prefix wordnet16: <http://xmlns.com/wordnet/1.6/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix wordnet: <http://www.w3.org/2006/03/wn/wn20/instances/> .
+@prefix km4c: <http://www.disit.org/km4city/schema#> .
+@prefix gr: <http://purl.org/goodrelations/v1#> .
+@prefix opencyc: <http://sw.opencyc.org/concept/> .
+@prefix wordn-sc: <http://www.w3.org/2006/03/wn/wn20/schema/> .
+@prefix nytimes: <http://data.nytimes.com/> .
+@prefix dbp-prop: <http://dbpedia.org/property/> .
+@prefix geonames: <http://sws.geonames.org/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix oasis: <http://psi.oasis-open.org/iso/639/#> .
+@prefix geo-ont: <http://www.geonames.org/ontology#> .
+@prefix umbel-en: <http://umbel.org/umbel/ne/wikipedia/> .
+@prefix bbc-pont: <http://purl.org/ontology/po/> .
+@prefix ptop: <http://proton.semanticweb.org/protontop#> .
+@prefix lingvoj: <http://www.lingvoj.org/ontology#> .
+@prefix fb: <http://rdf.freebase.com/ns/> .
+@prefix dbtune: <http://dbtune.org/bbc/peel/work/> .
+@prefix psys: <http://proton.semanticweb.org/protonsys#> .
+@prefix dct: <http://purl.org/dc/terms/#> .
+@prefix umbel-sc: <http://umbel.org/umbel/sc/> .
+@prefix dbp-ont: <http://dbpedia.org/ontology/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ub: <http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix km4cr: <http://www.disit.org/km4city/resource#> .
+
+_:node19pn5vcthx1 a km-dev:R2RMLMapping ;
+km-dev:sourceName "infodocument_2015_09_18" ;
+km-dev:modelPublicationTime "1436370842550"^^xsd:long ;
+km-dev:modelVersion "1.7" ;
+km-dev:hasInputColumns "[[{\"columnName\":\"doc_id\"}],[{\"columnName\":\"url\"}],[{\"columnName\":\"regione\"}],[{\"columnName\":\"provincia\"}],[{\"columnName\":\"city\"}],[{\"columnName\":\"indirizzo\"}],[{\"columnName\":\"iva\"}],[{\"columnName\":\"email\"}],[{\"columnName\":\"telefono\"}],[{\"columnName\":\"fax\"}],[{\"columnName\":\"edificio\"}],[{\"columnName\":\"latitude\"}],[{\"columnName\":\"longitude\"}],[{\"columnName\":\"nazione\"}],[{\"columnName\":\"description\"}],[{\"columnName\":\"indirizzoNoCAP\"}],[{\"columnName\":\"postalCode\"}],[{\"columnName\":\"indirizzoHasNumber\"}],[{\"columnName\":\"identifier\"}],[{\"columnName\":\"name_location\"}]]" ;
+km-dev:hasOutputColumns "[[{\"columnName\":\"doc_id\"}],[{\"columnName\":\"url\"}],[{\"columnName\":\"regione\"}],[{\"columnName\":\"provincia\"}],[{\"columnName\":\"city\"}],[{\"columnName\":\"indirizzo\"}],[{\"columnName\":\"iva\"}],[{\"columnName\":\"email\"}],[{\"columnName\":\"telefono\"}],[{\"columnName\":\"fax\"}],[{\"columnName\":\"edificio\"}],[{\"columnName\":\"latitude\"}],[{\"columnName\":\"longitude\"}],[{\"columnName\":\"nazione\"}],[{\"columnName\":\"description\"}],[{\"columnName\":\"indirizzoNoCAP\"}],[{\"columnName\":\"postalCode\"}],[{\"columnName\":\"indirizzoHasNumber\"}],[{\"columnName\":\"identifier\"}],[{\"columnName\":\"name_location\"}]]" ;
+km-dev:hasModelLabel "infodocument_2015_09_18" ;
+km-dev:hasBaseURI "http://purl.org/goodrelations/v1#" ;
+

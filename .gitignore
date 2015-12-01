@@ -16,6 +16,10 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/target/*
+/.idea
+/karma-modelSupport.iml
+/modelWebKarma.iml
 
 # =========================
 # Operating System Files
