@@ -1,20 +1,9 @@
 package edu.isi.karma.support;
 
-import edu.isi.karma.config.ModelingConfiguration;
-import edu.isi.karma.controller.command.worksheet.ApplyHistoryFromR2RMLModelCommand;
-import edu.isi.karma.controller.command.worksheet.ApplyHistoryFromR2RMLModelCommandFactory;
 import edu.isi.karma.controller.history.HistoryJSONEditor;
-import edu.isi.karma.controller.update.UpdateContainer;
-import edu.isi.karma.er.helper.PythonRepository;
-import edu.isi.karma.metadata.KarmaMetadataManager;
-import edu.isi.karma.metadata.PythonTransformationMetadata;
-import edu.isi.karma.metadata.UserConfigMetadata;
-import edu.isi.karma.metadata.UserPreferencesMetadata;
-import edu.isi.karma.modeling.semantictypes.SemanticTypeUtil;
-import edu.isi.karma.rep.Worksheet;
+import edu.isi.karma.controller.history.HistoryJsonUtil;
 import edu.isi.karma.rep.Workspace;
 import edu.isi.karma.rep.WorkspaceManager;
-import edu.isi.karma.util.FileUtil;
 
 
 import edu.isi.karma.webserver.KarmaException;
@@ -23,7 +12,6 @@ import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.io.IOException;
 
 
 /**
@@ -31,11 +19,28 @@ import java.io.IOException;
  * @author 4535992.
  * @version 2015-11-30.
  */
-public class ApplyHistorySupport {
+@SuppressWarnings("unused")
+public class ApplyHistorySupport extends ApplyMappingSupport {
 
     private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ApplyHistorySupport.class);
 
-    protected  ApplyHistorySupport() {}
+    private JSONArray historyJson;
+
+    protected ApplyHistorySupport() {
+        if(isOffline  && !isSetted){
+            try {
+                setupKarmaMetadata();
+            } catch (KarmaException e) {
+                logger.error("Error occurred while initializing the Karma MetaData...");
+                System.exit(-1);
+            }
+        }
+    }
+
+    protected  ApplyHistorySupport(boolean isOffline) {
+        this.isOffline = isOffline;
+        new ApplyHistorySupport();
+    }
 
     private static  ApplyHistorySupport instance = null;
 
@@ -46,28 +51,30 @@ public class ApplyHistorySupport {
         return instance;
     }
 
+    public static  ApplyHistorySupport getInstance(boolean isOffline){
+        if(instance == null) {
+            instance = new  ApplyHistorySupport(isOffline);
+        }
+        return instance;
+    }
+
     /**
      * Method to READ a WorkSheetHistory from a R2RML Model.
      * @param tableName the String name of The Table.
-     * @param R2RML the File turtle R2RML of the Table @tableName.
+     * @param r2rmlModelFile the File turtle R2RML of the Table @tableName.
      * @return the JSON Array of the WorkSheetHistory.
      * @throws KarmaException throw if any error is occurred with Web-Karma.
      */
-    public JSONArray extractWorkSheetHistory(String tableName,File R2RML) throws KarmaException {
-        setupKarmaMetadata();
-        JSONArray historyJson = new JSONArray();
-        Workspace workspace = WorkspaceManager.getInstance().createWorkspace();
-        Worksheet workSheet = workspace.getFactory().createWorksheet(tableName,workspace,"UTF-8");
-        ApplyHistoryFromR2RMLModelCommandFactory fac = new ApplyHistoryFromR2RMLModelCommandFactory();
+    protected JSONArray extractWorkSheetHistoryFromModel(String tableName,File r2rmlModelFile) throws KarmaException {
         try {
+            /*
+            ApplyHistoryFromR2RMLModelCommandFactory fac = new ApplyHistoryFromR2RMLModelCommandFactory();
             ApplyHistoryFromR2RMLModelCommand co =
-                    (ApplyHistoryFromR2RMLModelCommand) fac.createCommandFromFile(workSheet.getId(), R2RML, workspace, true);
-
-            UpdateContainer c = new UpdateContainer();
-            //TODO: extractHistoryFromModel modified from private to public
-            historyJson  = co.extractHistoryFromModel(workspace, c);
-            HistoryJSONEditor editor = new HistoryJSONEditor(new JSONArray(historyJson.toString()), workspace, workSheet.getId());
-            if (null == historyJson || historyJson.length() == 0) {
+                    (ApplyHistoryFromR2RMLModelCommand) fac.createCommandFromFile(workSheet.getId(), R2RML, workspace, override);
+            */
+            historyJson = prepareKR2RMLMappingFromModel(tableName, r2rmlModelFile).getWorksheetHistory();
+            HistoryJSONEditor editor = new HistoryJSONEditor(new JSONArray(historyJson.toString()), workspace, currentWorkSheet.getId());
+            if (historyJson.length() == 0) {
                 throw new Exception(new Throwable("No history found in R2RML Model!"));
             }else{
                return historyJson;
@@ -82,27 +89,31 @@ public class ApplyHistorySupport {
     /**
      * Method to READ a WorkSheetHistory from a Rquest by the graphic interface of the Server.
      * @param request HttpServletRequest the request from the server.
+     * @return the JSON Array of the WorkSheetHistory.
+     * @throws KarmaException throw if any error is occurred with Web-Karma.
+     */
+    protected JSONArray extractWorkSheetHistoryFromRequest(HttpServletRequest request) throws KarmaException {
+        this.workspace = WorkspaceManager.getInstance().createWorkspace();
+        return extractWorkSheetHistoryFromRequest(request,workspace);
+    }
+
+    /**
+     * Method to READ a WorkSheetHistory from a Rquest by the graphic interface of the Server.
+     * @param request HttpServletRequest the request from the server.
      * @param workspace Workspace in use on the Server.
      * @return the JSON Array of the WorkSheetHistory.
      * @throws KarmaException throw if any error is occurred with Web-Karma.
      */
-    public JSONArray extractWorkSheetHistory(HttpServletRequest request,Workspace workspace) throws KarmaException {
-        //setupKarmaMetadata(); //not necessary
-        JSONArray historyJson = new JSONArray();
-        final String worksheetId = "worksheetId";
-
-        //Workspace workspace = WorkspaceManager.getInstance().createWorkspace();
-        ApplyHistoryFromR2RMLModelCommandFactory fac = new ApplyHistoryFromR2RMLModelCommandFactory();
+    protected JSONArray extractWorkSheetHistoryFromRequest(HttpServletRequest request,Workspace workspace) throws KarmaException {
         try {
-            String id = request.getParameter(worksheetId);
+            /*
+            ApplyHistoryFromR2RMLModelCommandFactory fac = new ApplyHistoryFromR2RMLModelCommandFactory();
             ApplyHistoryFromR2RMLModelCommand co =
                     (ApplyHistoryFromR2RMLModelCommand) fac.createCommand(request, workspace);
-
-            UpdateContainer c = new UpdateContainer();
-            //TODO: extractHistoryFromModel modified from private to public
-            historyJson  = co.extractHistoryFromModel(workspace, c);
-            HistoryJSONEditor editor = new HistoryJSONEditor(new JSONArray(historyJson.toString()), workspace, id);
-            if (null == historyJson || historyJson.length() == 0) {
+            */
+            historyJson = prepareKR2RMLMappingFromRequest(request, workspace).getWorksheetHistory();
+            HistoryJSONEditor editor = new HistoryJSONEditor(new JSONArray(historyJson.toString()), workspace, currentWorkSheet.getId());
+            if (historyJson.length() == 0) {
                 throw new Exception(new Throwable("No history found in R2RML Model!"));
             }else{
                 return historyJson;
@@ -113,34 +124,23 @@ public class ApplyHistorySupport {
         return historyJson;
     }
 
-    /**
-     * Set all your Web-Karma direcotries for work offline.
-     * @throws KarmaException throw if any error is occurred with Web-Karma.
-     */
-    private void setupKarmaMetadata() throws KarmaException {
-        UpdateContainer uc = new UpdateContainer();
-        KarmaMetadataManager userMetadataManager = new KarmaMetadataManager();
-        userMetadataManager.register(new UserPreferencesMetadata(), uc);
-        userMetadataManager.register(new UserConfigMetadata(), uc);
-        userMetadataManager.register(new PythonTransformationMetadata(), uc);
-        PythonRepository.disableReloadingLibrary();
+  /*  protected updateInputparameters(JSONArray historyJson){
+        mapping.getWorksheetHistory().Arr
+    }*/
 
-        SemanticTypeUtil.setSemanticTypeTrainingStatus(false);
-        ModelingConfiguration.setLearnerEnabled(false); // disable automatic learning
 
-    }
 
-    public static void main(String args[]) throws IOException, KarmaException {
+   /* public static void main(String args[]) throws IOException, KarmaException {
         File r2rml = new File("" +
                 "C:\\Users\\tenti\\Desktop\\Marco Utility\\TESI 2015-09-30\\Web-Karma-20151130\\karma-modelSupport\\src\\main\\java\\edu\\isi\\karma\\test\\R2RML_infodocument-model_2015-07-08.ttl");
-        ApplyHistorySupport support =  ApplyHistorySupport.getInstance();
-        JSONArray array = support.extractWorkSheetHistory("infodocument_2015_09_18", r2rml);
+        ApplyHistorySupport support =  ApplyHistorySupport.getInstance(true);
+        JSONArray array = support.extractWorkSheetHistoryFromModel("infodocument_2015_09_18", r2rml);
 
         File outputJson = new File(
                 "C:\\Users\\tenti\\Desktop\\Marco Utility\\TESI 2015-09-30\\Web-Karma-20151130\\karma-modelSupport\\src\\main\\java\\edu\\isi\\karma\\test\\output.json");
 
         FileUtil.writePrettyPrintedJSONObjectToFile(new JSONObject().put("WorkSheetHistory", (Object) array), outputJson);
         //JSONArray array2 = support.extractWorkSheetHistory("infodocument_2015_09_18", r2rml);
-    }
+    }*/
 
 }

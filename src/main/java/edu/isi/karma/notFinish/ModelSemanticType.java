@@ -1,7 +1,6 @@
 package edu.isi.karma.notFinish;
 
 import edu.isi.karma.util.SparqlUtil;
-import edu.isi.karma.util.StringUtilExtended;
 
 /**
  * Created by 4535992 on 26/11/2015.
@@ -23,7 +22,7 @@ public class ModelSemanticType {
     public ModelSemanticType(boolean isClass,String nameColumn,
                              String fullType,String domainUri,
                              String rdfLiteralType){
-        this.id = StringUtilExtended.generateMD5Token(1);
+        this.id = "";
         this.isClass = isClass;
         this.nameColumn = nameColumn;
         this.fullType = fullType;

@@ -2,7 +2,7 @@ package edu.isi.karma.notFinish;
 
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import edu.isi.karma.util.SparqlUtil;
-import edu.isi.karma.util.StringUtilExtended;
+
 
 /**
  * Created by tenti on 26/11/2015.
@@ -44,7 +44,7 @@ public class ModelColumn {
     public ModelColumn(String fullType, String domainUri, String rdfProperty, String nameColumn,
                        boolean isClass, boolean isPrimary, boolean isKey, boolean isTrainAndShowUpdates,
                        XSDDatatype xsd) {
-        this.id = StringUtilExtended.generateMD5Token(1);
+        this.id = "";
         this.fullType = fullType;
         this.domainUri = domainUri;
         this.rdfProperty = rdfProperty;

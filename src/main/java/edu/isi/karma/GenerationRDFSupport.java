@@ -1,4 +1,4 @@
-package edu.isi.karma.support;
+package edu.isi.karma;
 
 import edu.isi.karma.kr2rml.URIFormatter;
 import edu.isi.karma.kr2rml.mapping.R2RMLMappingIdentifier;
@@ -16,6 +16,7 @@ import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,6 +25,7 @@ import java.util.regex.Pattern;
  * @author 4535992.
  * @version 2015-11-30.
  */
+@SuppressWarnings("unused")
 public class GenerationRDFSupport {
 
     private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GenerationRDFSupport.class);
@@ -45,7 +47,7 @@ public class GenerationRDFSupport {
      * @param fileOftriple the path to the output file of triple e.g. "karma_files/output/".
      * @param conn the Connection java SQL to a Database.
      * @param nameOfTable String name of the table to triplify with the karma Model.
-     * @return
+     * @return the file of triple generated with Web-karma.
      * @throws IOException throw if the File not exists.
      * @throws SQLException throw if there is some problem with the Connection.
      */
@@ -113,7 +115,7 @@ public class GenerationRDFSupport {
         String[] args2;
         try {
             args2 = mergeArraysForInput(param, value);
-            logger.info("PARAM KARMA:" + args2.toString());
+            logger.info("PARAM KARMA:" + Arrays.toString(args2));
             logger.info("try to create a file of triples from a relational table with karma...");
             OfflineRdfGenerator.main(args2);
             logger.info("...file of triples created with name:" + pathOut);
@@ -315,7 +317,7 @@ public class GenerationRDFSupport {
         else if(type.equals(DBType.PostGIS.name()) || type.equals("PostgreSQL")) return DBType.PostGIS;
         else if(type .equals(DBType.SQLServer.name()) || type.equals("Microsoft SQL Server")) return DBType.SQLServer;
         else if(type .equals(DBType.Sybase.name())) return DBType.Sybase;
-        else return null;
+        throw new IllegalArgumentException("couldn't find dbType Karma for the type database '" + type + "'");
     }
 
     /**
@@ -327,14 +329,15 @@ public class GenerationRDFSupport {
         String regexForHostAndPort = "[.\\w]+:\\d+";
         Pattern hostAndPortPattern = Pattern.compile(regexForHostAndPort);
         Matcher matcher = hostAndPortPattern.matcher(url);
-        matcher.find();
-        int start = matcher.start();
-        int end = matcher.end();
-        if(start >= 0 && end >= 0) {
-            String hostAndPort = url.substring(start, end);
-            String [] array = hostAndPort.split(":");
-            if(array.length >= 2)
-                return array[0];
+        if(matcher.find()) {
+            int start = matcher.start();
+            int end = matcher.end();
+            if (start >= 0 && end >= 0) {
+                String hostAndPort = url.substring(start, end);
+                String[] array = hostAndPort.split(":");
+                if (array.length >= 2)
+                    return array[0];
+            }
         }
         throw new IllegalArgumentException("couldn't find pattern '" + regexForHostAndPort + "' in '" + url + "'");
     }
@@ -348,14 +351,15 @@ public class GenerationRDFSupport {
         String regexForHostAndPort = "[.\\w]+:\\d+";
         Pattern hostAndPortPattern = Pattern.compile(regexForHostAndPort);
         Matcher matcher = hostAndPortPattern.matcher(url);
-        matcher.find();
-        int start = matcher.start();
-        int end = matcher.end();
-        if(start >= 0 && end >= 0) {
-            String hostAndPort = url.substring(start, end);
-            String [] array = hostAndPort.split(":");
-            if(array.length >= 2)
-                return Integer.parseInt(array[1]);
+        if(matcher.find()) {
+            int start = matcher.start();
+            int end = matcher.end();
+            if (start >= 0 && end >= 0) {
+                String hostAndPort = url.substring(start, end);
+                String[] array = hostAndPort.split(":");
+                if (array.length >= 2)
+                    return Integer.parseInt(array[1]);
+            }
         }
         throw new IllegalArgumentException("couldn't find pattern '" + regexForHostAndPort + "' in '" + url + "'");
     }
@@ -395,7 +399,7 @@ public class GenerationRDFSupport {
     // TEST
     //------------------------------------------------------------
 
-    public static void main(String args[]) throws IOException, SQLException, ClassNotFoundException {
+   /* public static void main(String args[]) throws IOException, SQLException, ClassNotFoundException {
         File r2rml = new File("" +
                 "C:\\Users\\tenti\\Desktop\\Marco Utility\\TESI 2015-09-30\\Web-Karma-20151130" +
                 "\\karma-modelSupport\\src\\main\\java\\edu\\isi\\karma\\test\\R2RML_infodocument-model_2015-07-08.ttl");
@@ -406,14 +410,14 @@ public class GenerationRDFSupport {
 
         GenerationRDFSupport support = GenerationRDFSupport.getInstance();
 
-        /*support.generateRDF("DB",r2rml,output,DBType.MySQL,"localhost",
-                "siimobility", "siimobility","3306","geodb","infodocument_2015_09_18");*/
+        *//*support.generateRDF("DB",r2rml,output,DBType.MySQL,"localhost",
+                "siimobility", "siimobility","3306","geodb","infodocument_2015_09_18");*//*
 
         AbstractJDBCUtil dbUtil = JDBCUtilFactory.getInstance(DBType.MySQL);
         Connection conn = dbUtil.getConnection("localhost", 3306, "siimobility", "siimobility", "geodb");
         support.generateRDF(r2rml,output,conn,"infodocument_2015_09_18");
 
-    }
+    }*/
 
 
 }
