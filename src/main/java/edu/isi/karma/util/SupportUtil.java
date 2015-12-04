@@ -1,5 +1,9 @@
 package edu.isi.karma.util;
 
+import com.hp.hpl.jena.rdf.model.Statement;
+import edu.isi.karma.kr2rml.ObjectMap;
+import edu.isi.karma.kr2rml.Predicate;
+import edu.isi.karma.kr2rml.SubjectMap;
 import edu.isi.karma.rep.Worksheet;
 import edu.isi.karma.rep.Workspace;
 import edu.isi.karma.rep.WorkspaceManager;
@@ -23,7 +27,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class SupportUtil {
 
-    public static boolean hostAvailabilityCheck(String server_address,int tcp_server_port) {
+    private static boolean hostAvailabilityCheck(String server_address,int tcp_server_port) {
         try (Socket s = new Socket(server_address, tcp_server_port)) {
             if(s.isConnected()) s.close();
             return true;
@@ -36,7 +40,6 @@ public class SupportUtil {
     public static boolean isOffline(String server_address,int tcp_server_port){
         return !hostAvailabilityCheck(server_address,tcp_server_port);
     }
-
 
     public static Workspace createNewWorkspace(){
         return WorkspaceManager.getInstance().createWorkspace();
@@ -65,5 +68,13 @@ public class SupportUtil {
     public static void writePrettyPrintedJSONObjectToFile(JSONObject json){
         String prettyPrintedJSONString = json.toString(4);
         System.out.println(prettyPrintedJSONString);
+    }
+
+    public static Statement createStatement(SubjectMap subjectMap,Predicate predicate,ObjectMap objectMap){
+        String subject = subjectMap.getGraph().getGraphLabel().getUri();
+        String pred = predicate.getTemplate().toString();
+        String object = objectMap.getRefObjectMap().getId();
+        String datatype = objectMap.getRdfLiteralType().getAllTerms().get(0).getTemplateTermValue();
+        return null;
     }
 }

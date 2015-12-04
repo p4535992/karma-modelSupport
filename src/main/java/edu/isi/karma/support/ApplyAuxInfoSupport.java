@@ -1,9 +1,12 @@
 package edu.isi.karma.support;
 
+import edu.isi.karma.kr2rml.KR2RMLVersion;
+import edu.isi.karma.kr2rml.Prefix;
 import edu.isi.karma.kr2rml.mapping.KR2RMLMappingAuxillaryInformation;
 import edu.isi.karma.webserver.KarmaException;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by 4535992 on 30/11/2015.
@@ -13,6 +16,7 @@ import java.io.File;
 public class ApplyAuxInfoSupport extends ApplyMappingSupport {
 
     private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ApplyAuxInfoSupport.class);
+    protected KR2RMLMappingAuxillaryInformation auxInfo;
 
     protected ApplyAuxInfoSupport() {}
 
@@ -25,10 +29,33 @@ public class ApplyAuxInfoSupport extends ApplyMappingSupport {
         return instance;
     }
 
-    public void extractWorkSheetHistoryFromModel(String tableName,File r2rmlModelFile) throws KarmaException {
-        KR2RMLMappingAuxillaryInformation auxInfo = mapping.getAuxInfo();
-
+    public void extractWorkSheetHistoryFromModel() throws KarmaException {
+       this.auxInfo = mapping.getAuxInfo();
     }
+
+    protected String getModelVersion(){
+        KR2RMLVersion version = mapping.getVersion();
+        return version.toString();
+    }
+
+    public String getPrefixes(){
+        List<Prefix> prefixes =  mapping.getPrefixes();
+        StringBuilder b = new StringBuilder();
+        for(Prefix p : prefixes){
+            b.append("@prefix ").append(p.getPrefix()).append(" : <").append(p.getNamespace()).append(">.\n");
+        }
+        return b.toString();
+    }
+
+    protected String getSourceName(){
+        return mapping.getId().getName();
+    }
+
+
+
+
+
+
 
 
 

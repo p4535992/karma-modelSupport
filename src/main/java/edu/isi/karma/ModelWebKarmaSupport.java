@@ -1,10 +1,15 @@
 package edu.isi.karma;
 
-import edu.isi.karma.kr2rml.Prefix;
+import edu.isi.karma.kr2rml.*;
 import edu.isi.karma.kr2rml.mapping.KR2RMLMapping;
+import edu.isi.karma.kr2rml.planning.TriplesMap;
+import edu.isi.karma.kr2rml.template.TemplateTerm;
+import edu.isi.karma.kr2rml.template.TemplateTermSet;
 import edu.isi.karma.rep.Workspace;
 import edu.isi.karma.support.ApplyHistorySupport;
 import edu.isi.karma.support.ApplyMappingSupport;
+import edu.isi.karma.support.ApplySubjectMapSupport;
+import edu.isi.karma.support.ApplyTripleMapSupport;
 import edu.isi.karma.webserver.KarmaException;
 import org.json.JSONArray;
 
@@ -12,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -65,7 +71,7 @@ public class ModelWebKarmaSupport {
     public KR2RMLMapping prepareKR2RMLMapping(String tableName, File r2rmlModelFile){
         KR2RMLMapping mapping;
         try {
-            mapping = aMapping.prepareKR2RMLMappingFromModel(tableName,r2rmlModelFile);
+            mapping = aMapping.prepareKR2RMLMappingFromModel(tableName, r2rmlModelFile);
         } catch (IOException e) {
             logger.error("The path to the MOdel file is errate",e);
             mapping = null;
@@ -102,11 +108,105 @@ public class ModelWebKarmaSupport {
         return aMapping.extractWorkSheetHistory(request, workspace);
     }
 
-    public void updtaColumnName(String columname,JSONArray historyJson)  {
+   /* public void updtaColumnName(String columname,JSONArray historyJson)  {
         aMapping.updtaColumnName(columname,historyJson);
+    }*/
+
+    //------------------------------------------------------------------------------------------------------------
+
+    public boolean hasSubject(String name){
+        return aMapping.hasSubject(name);
     }
 
-    public String getPrefixes(){ return aMapping.getPrefixes();}
+    public SubjectMap readSubjectMapByKey(String key){
+        return aMapping.readSubjectMapByKey(key);
+    }
+
+    public SubjectMap readSubjectMapByName(String name){
+        return aMapping.readSubjectMapByName(name);
+    }
+
+    public TemplateTerm readTemplateTerm(int indexSubject,int indexTerm){
+        return aMapping.readTemplateTerm(indexSubject, indexTerm);
+    }
+
+    public TemplateTerm readTemplateTerm(String name){
+        return aMapping.readTemplateTerm(name);
+    }
+
+    public List<TemplateTerm> readTemplateTerms(int indexSubject){
+        return aMapping.readTemplateTerms(indexSubject);
+    }
+
+    public TemplateTermSet readRdfType(int indexSubject,int indexTerm){
+        return aMapping.readRdfType(indexSubject, indexTerm);
+    }
+
+    public List<TemplateTermSet> readRdfType(String name){
+        return aMapping.readRdfType(name);
+   }
+
+    public TemplateTermSet readRdfType(String name,int indexTerm){
+        return aMapping.readRdfType(name, indexTerm);
+    }
+
+    public List<TemplateTermSet> readRdfsType(int indexSubject){
+        return aMapping.readRdfsType(indexSubject);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public boolean hasTriplesMap(String name){
+        return aMapping.hasTriplesMap(name);
+    }
+
+    public List<PredicateObjectMap> readPredicateObjectBySubject(String name){
+        return aMapping.readPredicateObjectBySubject(name);
+    }
+
+    public TriplesMap readTriplesMapByKey(String key){
+        return aMapping.readTriplesMapByKey(key);
+    }
+
+    public TriplesMap readTriplesMapByName(String name){
+        return aMapping.readTriplesMapByName(name);
+    }
+
+    public PredicateObjectMap readPredicateObjectMap(int indexSubject,int indexTerm){
+        return aMapping.readPredicateObjectMap(indexSubject, indexTerm);
+    }
+
+    public List<PredicateObjectMap> readPredicateObjectMaps(int indexSubject){
+        return aMapping.readPredicateObjectMaps(indexSubject);
+    }
+
+    public Predicate readPredicate(int indexSubject,int indexTerm){
+        return aMapping.readPredicate(indexSubject, indexTerm);
+    }
+
+    public ObjectMap readObject(int indexSubject,int indexTerm){
+        return aMapping.readObject(indexSubject, indexTerm);
+    }
+
+   /* public List<Predicate> readPredicatesBySubject(String subject){
+        return aMapping.readPredicatesBySubject(subject);
+    }
+
+    public List<ObjectMap> readObjectMapBySubject(String subject){
+        return aMapping.readObjectMapBySubject(subject);
+    }*/
+
+    public Map<Predicate,ObjectMap> readPredicateObjects(int indexSubject){
+        return aMapping.readPredicateObjects(indexSubject);
+    }
+
+    public Map<Predicate,ObjectMap> readPredicateObjects(String subject){
+        try {
+            return aMapping.readPredicateObjects(subject);
+        }catch(java.lang.NullPointerException e){
+            return null;
+        }
+    }
+    //public String getPrefixes(){ return aMapping.getPrefixes();}
 
     public void getAuxInfo(){
 //        km-dev:sourceName "infodocument_2015_09_18" ;
