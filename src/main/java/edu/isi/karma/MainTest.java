@@ -2,6 +2,7 @@ package edu.isi.karma;
 
 
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
+import com.hp.hpl.jena.rdf.model.Statement;
 import edu.isi.karma.controller.history.HistoryJsonUtil;
 import edu.isi.karma.kr2rml.*;
 import edu.isi.karma.kr2rml.formatter.KR2RMLColumnNameFormatter;
@@ -70,15 +71,7 @@ public class MainTest {
 
         List<SupportStatement> mvm = model.readAllInfo();
         //get from the web karma model all the information for set the semantic type
-        for(SupportStatement ss: mvm){
-            //name source column
-            String sourceColumn = ss.getSubjectMap().getColumnHNodeId();
-            //list of rdf type assign to the source column
-            List<String> rdfTypeOfSourceColumn = ss.getSubjectMap().getRdfsTypeString();
-            List<String> predicateRdfType = ss.getListPredicate();
-            List<String> objectMapRdfType = ss.getListObjectMap();
-            String test = "";
-        }
+        List<Statement> stmt = SupportUtil.convertToJenaStatement(mvm);
 
 
         Map<String, String> subjectMapIdToTemplateAnchor = auxIfo.getSubjectMapIdToTemplateAnchor();

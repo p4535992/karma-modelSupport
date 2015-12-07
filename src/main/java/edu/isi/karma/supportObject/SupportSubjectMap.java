@@ -24,7 +24,15 @@ public class SupportSubjectMap {
     private List<TemplateTermSet> rdfsType;
     private List<String> rdfsTypeString;
 
-    private String nameSpaceKarma = "http://isi.edu/integration/karma/dev#"+this.id;
+    private String nameSpaceKarmaId = "http://isi.edu/integration/karma/dev#"+this.id;
+
+    public String getNameSpaceKarma() {
+        return nameSpaceKarmaId ;
+    }
+
+    public void setNameSpaceKarma(String nameSpaceKarma) {
+        this.nameSpaceKarmaId  = nameSpaceKarma;
+    }
 
     public SupportSubjectMap() {}
 

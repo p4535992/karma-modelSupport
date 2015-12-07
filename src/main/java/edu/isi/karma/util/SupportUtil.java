@@ -10,6 +10,10 @@ import edu.isi.karma.rep.Worksheet;
 import edu.isi.karma.rep.Workspace;
 import edu.isi.karma.rep.WorkspaceManager;
 import edu.isi.karma.rep.alignment.Label;
+import edu.isi.karma.supportJena.Jena2Kit;
+import edu.isi.karma.supportObject.SupportObjectMap;
+import edu.isi.karma.supportObject.SupportPredicate;
+import edu.isi.karma.supportObject.SupportStatement;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,6 +79,19 @@ public class SupportUtil {
     public static void writePrettyPrintedJSONObjectToFile(JSONObject json){
         String prettyPrintedJSONString = json.toString(4);
         System.out.println(prettyPrintedJSONString);
+    }
+
+    public static List<Statement> convertToJenaStatement(List<SupportStatement> supportStmt){
+        List<Statement> stmt = new ArrayList<>();
+        for(SupportStatement sStmt: supportStmt){
+            String subject = sStmt.getSubjectMap().getNameSpaceKarma();
+            for(String pred : sStmt.getListPredicate()){
+                for(String obj: sStmt.getListObjectMap()){
+                    stmt.add( Jena2Kit.createStatement(subject,pred,obj));
+                }
+            }
+        }
+        return stmt;
     }
 
 
