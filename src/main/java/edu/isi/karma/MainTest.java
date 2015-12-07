@@ -3,21 +3,24 @@ package edu.isi.karma;
 
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import edu.isi.karma.controller.history.HistoryJsonUtil;
-import edu.isi.karma.kr2rml.ObjectMap;
-import edu.isi.karma.kr2rml.Predicate;
-import edu.isi.karma.kr2rml.PredicateObjectMap;
-import edu.isi.karma.kr2rml.SubjectMap;
+import edu.isi.karma.kr2rml.*;
 import edu.isi.karma.kr2rml.formatter.KR2RMLColumnNameFormatter;
 import edu.isi.karma.kr2rml.mapping.KR2RMLMapping;
+import edu.isi.karma.kr2rml.mapping.KR2RMLMappingAuxillaryInformation;
+import edu.isi.karma.kr2rml.mapping.R2RMLMappingIdentifier;
 import edu.isi.karma.kr2rml.planning.TriplesMap;
+import edu.isi.karma.kr2rml.planning.TriplesMapGraphMerger;
 import edu.isi.karma.kr2rml.template.TemplateTerm;
 import edu.isi.karma.kr2rml.template.TemplateTermSet;
 import edu.isi.karma.rep.metadata.WorksheetProperties;
 import edu.isi.karma.support.ApplyMappingSupport;
 import edu.isi.karma.support.ApplySubjectMapSupport;
+import edu.isi.karma.supportObject.SupportPredicate;
+import edu.isi.karma.supportObject.SupportStatement;
 import edu.isi.karma.util.HistoryJsonUtility;
 import edu.isi.karma.util.SupportUtil;
 import edu.isi.karma.webserver.KarmaException;
+import org.apache.commons.collections.map.MultiValueMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -36,62 +39,80 @@ public class MainTest {
 
     public static void main(String args[]) throws IOException, KarmaException {
         File r2rml = new File("" +
-                "C:\\Users\\tenti\\Desktop\\Marco Utility\\TESI 2015-09-30\\Web-Karma-20151130\\karma-modelSupport\\src\\main\\java\\edu\\isi\\karma\\test\\R2RML_infodocument-model_2015-07-08.ttl");
+                "C:\\Users\\tenti\\Desktop\\Marco Utility\\TESI 2015-09-30\\Web-Karma-2\\karma-modelSupport\\src\\main\\java\\edu\\isi\\karma\\test\\R2RML_infodocument-model_2015-07-08.ttl");
 
         File outputJson = new File(
-                "C:\\Users\\tenti\\Desktop\\Marco Utility\\TESI 2015-09-30\\Web-Karma-20151130\\karma-modelSupport\\src\\main\\java\\edu\\isi\\karma\\test\\output.json");
+                "C:\\Users\\tenti\\Desktop\\Marco Utility\\TESI 2015-09-30\\Web-Karma-2\\karma-modelSupport\\src\\main\\java\\edu\\isi\\karma\\test\\output.json");
 
-        //GET WORKSHEET HISTORY
         boolean isOffline = SupportUtil.isOffline("localhost", 8181);
         ModelWebKarmaSupport model =  ModelWebKarmaSupport.getInstance(isOffline);
         KR2RMLMapping mapping = model.prepareKR2RMLMapping("infodocument_2015_09_18", r2rml);
 
-        KR2RMLColumnNameFormatter formatter = mapping.getColumnNameFormatter();
+        //What i succesfully full manage for my purpose
 
-        Map<String,TriplesMap> map2 = mapping.getTriplesMapIndex();
+        KR2RMLColumnNameFormatter formatter = mapping.getColumnNameFormatter(); // done
+        JSONArray historyJson = mapping.getWorksheetHistory(); //done
+        WorksheetProperties.SourceTypes sourceTypes = mapping.getSourceType(); //done
+        KR2RMLVersion version = mapping.getVersion(); //done
+        R2RMLMappingIdentifier identifier = mapping.getId(); // done
 
-        //TESTED PredicateObjectsMap READ/WRITE
 
-        boolean b1 = model.hasTriplesMap("name_location");
+        Map<String,TriplesMap> map2 = mapping.getTriplesMapIndex(); // in progress..
+        Map<String,SubjectMap> map = mapping.getSubjectMapIndex(); // in progress..
+
+
+
+        KR2RMLMappingAuxillaryInformation auxIfo = mapping.getAuxInfo();
+        TriplesMapGraphMerger triplesMapGraphMerger = auxIfo.getTriplesMapGraph();
+        //Map<String, List<String>> blankNodesColumnCoverage = auxIfo.getBlankNodesColumnCoverage(); //..not necessary
+        //Map<String, String> blankNodesUriPrefixMap = auxIfo.getBlankNodesUriPrefixMap(); //..not necessary
+        Map<String, List<PredicateObjectMap>> columnNameToPredObjMLinks = auxIfo.getColumnNameToPredObjLinks();
+
+        List<SupportStatement> mvm = model.readAllInfo();
+        //get from the web karma model all the information for set the semantic type
+        for(SupportStatement ss: mvm){
+            //name source column
+            String sourceColumn = ss.getSubjectMap().getColumnHNodeId();
+            //list of rdf type assign to the source column
+            List<String> rdfTypeOfSourceColumn = ss.getSubjectMap().getRdfsTypeString();
+            List<String> predicateRdfType = ss.getListPredicate();
+            List<String> objectMapRdfType = ss.getListObjectMap();
+            String test = "";
+        }
+
+
+        Map<String, String> subjectMapIdToTemplateAnchor = auxIfo.getSubjectMapIdToTemplateAnchor();
+
+        //TESTED PredicateObjectsMap READ
+       /* boolean b1 = model.hasTriplesMap("name_location");
         List<PredicateObjectMap> list1 = model.readPredicateObjectBySubject("name_location");
         TriplesMap t1 = model.readTriplesMapByKey("xxxxxx");
         TriplesMap t2 = model.readTriplesMapByName("name_location");
-        PredicateObjectMap p1 = model.readPredicateObjectMap(0,0);
+        PredicateObjectMap p1 = model.readPredicateObjectMap(0, 0);
         List<PredicateObjectMap> l11 = model.readPredicateObjectMaps(0);
-
-        Predicate  pp1 = model.readPredicate(0,0);
-        ObjectMap oo1 = model.readObject(0,0);
-
-       /* List<Predicate> ll2 = model.readPredicatesBySubject("xxxxxxx");
-        List<ObjectMap> ll3 = model.readObjectMapBySubject("cccccc");*/
-
+        Predicate  pp1 = model.readPredicate(0, 0);
+        ObjectMap oo1 = model.readObject(0, 0);
         Map<Predicate,ObjectMap> map11 = model.readPredicateObjects(0);
         Map<Predicate,ObjectMap> map22 = model.readPredicateObjects("xxxxx");
+        Map<Predicate,ObjectMap> map33 =
+                model.readPredicateObjects("http://isi.edu/integration/karma/dev#TriplesMap_920bef46-4975-42a1-8789-4213e27a6f41");*/
 
-
-        //TESTED SUBJECT READ/WRITE
-        Map<String,SubjectMap> map = mapping.getSubjectMapIndex();
-
-        boolean c = model.hasSubject("name_location");
+        //TESTED SUBJECT READ
+       /* boolean c = model.hasSubject("name_location");
         boolean b = model.hasSubject("xxxx");
-
         SubjectMap sub1 = model.readSubjectMapByKey("xxxxxx");
         SubjectMap sub2 = model.readSubjectMapByName("name_location");
-
         TemplateTerm value1 = model.readTemplateTerm(0, 0);
         TemplateTerm value11 = model.readTemplateTerm("name_location");
-
         List<TemplateTerm> value2 = model.readTemplateTerms(0);
-
         TemplateTermSet rdftype1 = model.readRdfType(0, 0);
         List<TemplateTermSet> rdfType = model.readRdfsType(0);
-
         List<TemplateTermSet> rdftype2 = model.readRdfType("name_location");
-        TemplateTermSet rdftype3 = model.readRdfType("name_location",0);
+        TemplateTermSet rdftype3 = model.readRdfType("name_location",0);*/
 
 
         //TESTED READ/WRITE HISTORY JSON
-        JSONArray historyJson = mapping.getWorksheetHistory();
+        //JSONArray historyJson = mapping.getWorksheetHistory();
         /*for(int i=0; i < historyJson.length(); i++) {
 
             String tags = HistoryJsonUtility.readTags(historyJson, i);

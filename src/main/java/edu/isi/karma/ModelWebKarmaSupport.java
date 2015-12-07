@@ -6,11 +6,10 @@ import edu.isi.karma.kr2rml.planning.TriplesMap;
 import edu.isi.karma.kr2rml.template.TemplateTerm;
 import edu.isi.karma.kr2rml.template.TemplateTermSet;
 import edu.isi.karma.rep.Workspace;
-import edu.isi.karma.support.ApplyHistorySupport;
 import edu.isi.karma.support.ApplyMappingSupport;
-import edu.isi.karma.support.ApplySubjectMapSupport;
-import edu.isi.karma.support.ApplyTripleMapSupport;
+import edu.isi.karma.supportObject.SupportStatement;
 import edu.isi.karma.webserver.KarmaException;
+import org.apache.commons.collections.map.MultiValueMap;
 import org.json.JSONArray;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,18 +24,18 @@ import java.util.Map;
  * @author 4535992.
  * @version 2015-11-30.
  */
-public class ModelWebKarmaSupport {
+public class ModelWebKarmaSupport extends  ApplyMappingSupport{
 
     private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ModelWebKarmaSupport.class);
 
-    private ApplyMappingSupport aMapping;
+
 
     protected ModelWebKarmaSupport() {
-        aMapping = ApplyMappingSupport.getInstance();
+        ApplyMappingSupport.getInstance();
     }
 
     protected ModelWebKarmaSupport(boolean isOffline) {
-        aMapping = ApplyMappingSupport.getInstance(isOffline);
+        ApplyMappingSupport.getInstance(isOffline);
     }
 
     private static ModelWebKarmaSupport instance = null;
@@ -57,7 +56,7 @@ public class ModelWebKarmaSupport {
     public KR2RMLMapping prepareKR2RMLMapping(Workspace workspace, String worksheetId, File r2rmlModelFile){
         KR2RMLMapping mapping;
         try {
-            mapping = aMapping.prepareKR2RMLMappingFromModel(workspace,worksheetId,r2rmlModelFile);
+            mapping = super.prepareKR2RMLMappingFromModel(workspace, worksheetId, r2rmlModelFile);
         } catch (IOException e) {
             logger.error("The path to the MOdel file is errate",e);
             mapping = null;
@@ -71,7 +70,7 @@ public class ModelWebKarmaSupport {
     public KR2RMLMapping prepareKR2RMLMapping(String tableName, File r2rmlModelFile){
         KR2RMLMapping mapping;
         try {
-            mapping = aMapping.prepareKR2RMLMappingFromModel(tableName, r2rmlModelFile);
+            mapping = super.prepareKR2RMLMappingFromModel(tableName, r2rmlModelFile);
         } catch (IOException e) {
             logger.error("The path to the MOdel file is errate",e);
             mapping = null;
@@ -85,7 +84,7 @@ public class ModelWebKarmaSupport {
     public KR2RMLMapping prepareKR2RMLMapping(HttpServletRequest request,Workspace workspace){
         KR2RMLMapping mapping;
         try {
-            mapping = aMapping.prepareKR2RMLMappingFromRequest(request, workspace);
+            mapping = super.prepareKR2RMLMappingFromRequest(request, workspace);
         } catch (IOException e) {
             logger.error("The path to the MOdel file is errate",e);
             mapping = null;
@@ -97,15 +96,15 @@ public class ModelWebKarmaSupport {
     }
 
     public JSONArray extractWorkSheetHistory(String tableName,File r2rmlModelFile) throws KarmaException {
-        return aMapping.extractWorkSheetHistory(tableName,r2rmlModelFile);
+        return super.extractWorkSheetHistory(tableName, r2rmlModelFile);
     }
 
     public JSONArray extractWorkSheetHistory(HttpServletRequest request) throws KarmaException {
-        return aMapping.extractWorkSheetHistory(request);
+        return super.extractWorkSheetHistory(request);
     }
 
     public JSONArray extractWorkSheetHistory(HttpServletRequest request,Workspace workspace) throws KarmaException {
-        return aMapping.extractWorkSheetHistory(request, workspace);
+        return super.extractWorkSheetHistory(request, workspace);
     }
 
    /* public void updtaColumnName(String columname,JSONArray historyJson)  {
@@ -115,76 +114,76 @@ public class ModelWebKarmaSupport {
     //------------------------------------------------------------------------------------------------------------
 
     public boolean hasSubject(String name){
-        return aMapping.hasSubject(name);
+        return super.hasSubject(name);
     }
 
     public SubjectMap readSubjectMapByKey(String key){
-        return aMapping.readSubjectMapByKey(key);
+        return super.readSubjectMapByKey(key);
     }
 
     public SubjectMap readSubjectMapByName(String name){
-        return aMapping.readSubjectMapByName(name);
+        return super.readSubjectMapByName(name);
     }
 
     public TemplateTerm readTemplateTerm(int indexSubject,int indexTerm){
-        return aMapping.readTemplateTerm(indexSubject, indexTerm);
+        return super.readTemplateTerm(indexSubject, indexTerm);
     }
 
     public TemplateTerm readTemplateTerm(String name){
-        return aMapping.readTemplateTerm(name);
+        return super.readTemplateTerm(name);
     }
 
     public List<TemplateTerm> readTemplateTerms(int indexSubject){
-        return aMapping.readTemplateTerms(indexSubject);
+        return super.readTemplateTerms(indexSubject);
     }
 
     public TemplateTermSet readRdfType(int indexSubject,int indexTerm){
-        return aMapping.readRdfType(indexSubject, indexTerm);
+        return super.readRdfType(indexSubject, indexTerm);
     }
 
     public List<TemplateTermSet> readRdfType(String name){
-        return aMapping.readRdfType(name);
+        return super.readRdfType(name);
    }
 
     public TemplateTermSet readRdfType(String name,int indexTerm){
-        return aMapping.readRdfType(name, indexTerm);
+        return super.readRdfType(name, indexTerm);
     }
 
     public List<TemplateTermSet> readRdfsType(int indexSubject){
-        return aMapping.readRdfsType(indexSubject);
+        return super.readRdfsType(indexSubject);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     public boolean hasTriplesMap(String name){
-        return aMapping.hasTriplesMap(name);
+        return super.hasTriplesMap(name);
     }
 
     public List<PredicateObjectMap> readPredicateObjectBySubject(String name){
-        return aMapping.readPredicateObjectBySubject(name);
+        return super.readPredicateObjectBySubject(name);
     }
 
     public TriplesMap readTriplesMapByKey(String key){
-        return aMapping.readTriplesMapByKey(key);
+        return super.readTriplesMapByKey(key);
     }
 
     public TriplesMap readTriplesMapByName(String name){
-        return aMapping.readTriplesMapByName(name);
+        return super.readTriplesMapByName(name);
     }
 
     public PredicateObjectMap readPredicateObjectMap(int indexSubject,int indexTerm){
-        return aMapping.readPredicateObjectMap(indexSubject, indexTerm);
+        return super.readPredicateObjectMap(indexSubject, indexTerm);
     }
 
     public List<PredicateObjectMap> readPredicateObjectMaps(int indexSubject){
-        return aMapping.readPredicateObjectMaps(indexSubject);
+        return super.readPredicateObjectMaps(indexSubject);
     }
 
     public Predicate readPredicate(int indexSubject,int indexTerm){
-        return aMapping.readPredicate(indexSubject, indexTerm);
+        return super.readPredicate(indexSubject, indexTerm);
     }
 
     public ObjectMap readObject(int indexSubject,int indexTerm){
-        return aMapping.readObject(indexSubject, indexTerm);
+        return super.readObject(indexSubject, indexTerm);
     }
 
    /* public List<Predicate> readPredicatesBySubject(String subject){
@@ -196,16 +195,21 @@ public class ModelWebKarmaSupport {
     }*/
 
     public Map<Predicate,ObjectMap> readPredicateObjects(int indexSubject){
-        return aMapping.readPredicateObjects(indexSubject);
+        return super.readPredicateObjects(indexSubject);
     }
 
     public Map<Predicate,ObjectMap> readPredicateObjects(String subject){
         try {
-            return aMapping.readPredicateObjects(subject);
+            return super.readPredicateObjects(subject);
         }catch(java.lang.NullPointerException e){
             return null;
         }
     }
+
+    public List<SupportStatement> readAllInfo(){
+        return super.readAllInfo();
+    }
+
     //public String getPrefixes(){ return aMapping.getPrefixes();}
 
     public void getAuxInfo(){

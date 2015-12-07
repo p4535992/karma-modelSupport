@@ -18,17 +18,16 @@ import edu.isi.karma.metadata.UserPreferencesMetadata;
 import edu.isi.karma.modeling.semantictypes.SemanticTypeUtil;
 import edu.isi.karma.rep.Worksheet;
 import edu.isi.karma.rep.Workspace;
+import edu.isi.karma.supportObject.SupportStatement;
 import edu.isi.karma.util.FileUtil;
 import edu.isi.karma.util.SupportUtil;
 import edu.isi.karma.webserver.KarmaException;
-import org.apache.commons.collections.map.LinkedMap;
-import org.apache.commons.collections.map.MultiKeyMap;
+import org.apache.commons.collections.map.MultiValueMap;
 import org.json.JSONArray;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -211,35 +210,35 @@ public class ApplyMappingSupport {
     // METHOD ApplyTriplesMapSupport
     //--------------------------------------------------------------------------------
     public boolean hasTriplesMap(String name){
-        return ApplyTripleMapSupport.getInstance().hasTriplesMapImpl(name);
+        return ApplyTriplesMapSupport.getInstance().hasTriplesMapImpl(name);
     }
 
     public List<PredicateObjectMap> readPredicateObjectBySubject(String name){
-        return ApplyTripleMapSupport.getInstance().readPredicateObjectBySubjectImpl(name);
+        return ApplyTriplesMapSupport.getInstance().readPredicateObjectBySubjectImpl(name);
     }
 
     public TriplesMap readTriplesMapByKey(String key){
-        return ApplyTripleMapSupport.getInstance().readTriplesMapByKeyImpl(key);
+        return ApplyTriplesMapSupport.getInstance().readTriplesMapByKeyImpl(key);
     }
 
     public TriplesMap readTriplesMapByName(String name){
-        return ApplyTripleMapSupport.getInstance().readTriplesMapByNameImpl(name);
+        return ApplyTriplesMapSupport.getInstance().readTriplesMapByNameImpl(name);
     }
 
     public PredicateObjectMap readPredicateObjectMap(int indexSubject,int indexTerm){
-        return ApplyTripleMapSupport.getInstance().readPredicateObjectMapImpl(indexSubject,indexTerm);
+        return ApplyTriplesMapSupport.getInstance().readPredicateObjectMapImpl(indexSubject,indexTerm);
     }
 
     public List<PredicateObjectMap> readPredicateObjectMaps(int indexSubject){
-        return ApplyTripleMapSupport.getInstance().readPredicateObjectMapsImpl(indexSubject);
+        return ApplyTriplesMapSupport.getInstance().readPredicateObjectMapsImpl(indexSubject);
     }
 
     public Predicate readPredicate(int indexSubject,int indexTerm){
-        return ApplyTripleMapSupport.getInstance().readPredicateImpl(indexSubject,indexTerm);
+        return ApplyTriplesMapSupport.getInstance().readPredicateImpl(indexSubject,indexTerm);
     }
 
     public ObjectMap readObject(int indexSubject,int indexTerm){
-        return ApplyTripleMapSupport.getInstance().readObjectImpl(indexSubject, indexTerm);
+        return ApplyTriplesMapSupport.getInstance().readObjectImpl(indexSubject, indexTerm);
     }
 
   /*  public List<Predicate> readPredicatesBySubject(String subject){
@@ -251,11 +250,15 @@ public class ApplyMappingSupport {
     }*/
 
     public Map<Predicate,ObjectMap> readPredicateObjects(int indexSubject){
-        return ApplyTripleMapSupport.getInstance().readPredicateObjectsImpl(indexSubject);
+        return ApplyTriplesMapSupport.getInstance().readPredicateObjectsImpl(indexSubject);
     }
 
     public Map<Predicate,ObjectMap> readPredicateObjects(String subject){
-        return ApplyTripleMapSupport.getInstance().readPredicateObjectsImpl(subject);
+        return ApplyTriplesMapSupport.getInstance().readPredicateObjectsImpl(subject);
+    }
+
+    protected List<SupportStatement> readAllInfo(){
+        return ApplyOtherSupport.getInstance().readAllInfoImpl();
     }
 
 
