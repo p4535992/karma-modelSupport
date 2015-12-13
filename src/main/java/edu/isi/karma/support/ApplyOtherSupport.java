@@ -114,55 +114,10 @@ public class ApplyOtherSupport extends ApplyMappingSupport {
                         List<PredicateObjectMap> listPredicate = pom.getTriplesMap().getPredicateObjectMaps();
                         for (int i = 0; i < listPredicate.size(); i++) {
                             PredicateObjectMap predObjMap = pom.getTriplesMap().getPredicateObjectMaps().get(i);
-                            SupportPredicateObjectMap supportPredicateObjectMap = new SupportPredicateObjectMap();
-                            List<String> predicateRdfsType = new ArrayList<>();
-                            for (TemplateTerm tt : predObjMap.getPredicate().getTemplate().getAllTerms()) {
-                                predicateRdfsType.add(tt.getTemplateTermValue());
-                            }
-                            supportPredicateObjectMap.setPredicate(new SupportPredicate(id, predicateRdfsType));
-                            //Predicate: for each predicate->object
-                            for (int j = 0; j < predObjMap.getPredicate().getTemplate().getAllTerms().size(); j++) {
-                                //Object term
-                                List<SupportObjectMap> olistObject = new ArrayList<>();
-                                ObjectMap om = predObjMap.getObject();
-                                if(om.getTemplate() != null) {
-                                    for (int k = 0; k < om.getTemplate().getAllTerms().size(); k++) {
-                                        //Object rdfstype
-                                        List<String> rdfsLiteralType = new ArrayList<>();
-                                        String objectMapValue =
-                                                om.getTemplate().getAllTerms().get(k).getTemplateTermValue();
-                                        for(TemplateTerm tt : om.getRdfLiteralType().getAllTerms()){
-                                            rdfsLiteralType.add(tt.getTemplateTermValue());
-                                        }
-                                        if (rdfsLiteralType.get(0).isEmpty()){
-                                            rdfsLiteralType =  new ArrayList<>();
-                                            for (TemplateTermSet tts : predObjMap.getTriplesMap().getSubject().getRdfsType()) {
-                                                for(TemplateTerm tt : tts.getAllTerms()){
-                                                    rdfsLiteralType.add(tt.getTemplateTermValue());
-                                                }
-                                            }
-                                        }
-                                        olistObject.add(
-                                                new SupportObjectMap(id, objectMapValue, rdfsLiteralType));
-                                    }
-                                }//if
-                                else{
-                                    //Is a uri link between two  class uri
-                                    SubjectMap subMap = predObjMap.getObject().getRefObjectMap().getParentTriplesMap().getSubject();
-                                    String columnName = subMap.getTemplate().getAllTerms().get(0).getTemplateTermValue();
-                                    List<String> rdfsLiteralType = new ArrayList<>();
-                                    for (TemplateTermSet tts : subMap.getRdfsType()) {
-                                        for(TemplateTerm tt : tts.getAllTerms()){
-                                            rdfsLiteralType.add(tt.getTemplateTermValue());
-                                        }
-                                    }
-                                    olistObject.add(
-                                            new SupportObjectMap(id, columnName, rdfsLiteralType));
-                                }
-                                supportPredicateObjectMap.setListObjectMap(olistObject);
-                            }
+                            SupportPredicateObjectMap supportPredicateObjectMap;
+                            supportPredicateObjectMap = new SupportPredicateObjectMap(predObjMap);
                             listStatement.add(new SupportStatement(aListSub, supportPredicateObjectMap));
-                        }
+                        }//for
                     }//if
                 }
             }

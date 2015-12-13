@@ -53,7 +53,7 @@ public class Jena2Kit {
      * @return  the RDFDatatype of the uri resource.
      */
     public static RDFDatatype convertStringToRDFDatatype(String uri){
-        return createToXSDDatatype(uri);
+        return convertToXSDDatatype(uri);
     }
 
     /**
@@ -61,7 +61,7 @@ public class Jena2Kit {
      * @param uri string uri of the XSDDatatype.
      * @return xsdDatatype of the string uri if exists.
      */
-    public static XSDDatatype createToXSDDatatype(String uri) {
+    public static XSDDatatype convertToXSDDatatype(String uri) {
         for (XSDDatatype xsdDatatype : allFormatsOfXSDDataTypes) {
             if(xsdDatatype.getURI().equalsIgnoreCase(XSDDatatype.XSD+"#"+uri)) return xsdDatatype;
             if(xsdDatatype.getURI().replace(XSDDatatype.XSD,"")
@@ -454,6 +454,46 @@ public class Jena2Kit {
      */
     public static Statement createStatement(String subject,String predicate,Object object,XSDDatatype xsdDatatype){
         return createStatementBase(null, subject, predicate, object, null, xsdDatatype);
+    }
+
+    /**
+     * Method utility: create statement form a jena Model.
+     * @param subject the iri subject.
+     * @param predicate the iri predicate.
+     * @param object the iri object.
+     * @param graphUri  the URI to the graph base of the ontology.
+     * @param xsdDatatype the XSDDatatype of the Literal
+     * @return Statement.
+     */
+    public static Statement createStatement(String subject,String predicate,Object object,String graphUri,XSDDatatype xsdDatatype){
+        return createStatementBase(null, subject, predicate, object, graphUri, xsdDatatype);
+    }
+
+    /**
+     * Method utility: create statement form a jena Model.
+     * @param subject the iri subject.
+     * @param predicate the iri predicate.
+     * @param object the iri object.
+     * @param graphUri  the URI to the graph base of the ontology.
+     * @param xsdDatatype the XSDDatatype of the Literal
+     * @return Statement.
+     */
+    public static Statement createStatement(String subject,String predicate,Object object,String graphUri,String xsdDatatype){
+        return createStatementBase(null, subject, predicate, object, graphUri, createToXSDDatatype(xsdDatatype));
+    }
+
+    /**
+     * Method convert a string to XSDDatatype.
+     * @param uri string uri of the XSDDatatype.
+     * @return xsdDatatype of the string uri if exists.
+     */
+    public static XSDDatatype createToXSDDatatype(String uri) {
+        for (XSDDatatype xsdDatatype : allFormatsOfXSDDataTypes) {
+            if(xsdDatatype.getURI().equalsIgnoreCase(XSDDatatype.XSD+"#"+uri)) return xsdDatatype;
+            if(xsdDatatype.getURI().replace(XSDDatatype.XSD,"")
+                    .toLowerCase().contains(uri.toLowerCase())) return xsdDatatype;
+        }
+        throw new IllegalArgumentException("The XSD Datatype '" + uri + "' is not recognised");
     }
 
     /**

@@ -13,6 +13,8 @@ import edu.isi.karma.kr2rml.planning.TriplesMap;
 import edu.isi.karma.kr2rml.planning.TriplesMapGraphMerger;
 import edu.isi.karma.kr2rml.template.TemplateTerm;
 import edu.isi.karma.kr2rml.template.TemplateTermSet;
+import edu.isi.karma.kr2rml.writer.KR2RMLRDFWriter;
+import edu.isi.karma.kr2rml.writer.SFKR2RMLRDFWriter;
 import edu.isi.karma.rep.metadata.WorksheetProperties;
 import edu.isi.karma.support.ApplyMappingSupport;
 import edu.isi.karma.support.ApplySubjectMapSupport;
@@ -62,19 +64,38 @@ public class MainTest {
         Map<String,SubjectMap> map = mapping.getSubjectMapIndex(); // in progress..
 
 
-
         KR2RMLMappingAuxillaryInformation auxIfo = mapping.getAuxInfo();
         TriplesMapGraphMerger triplesMapGraphMerger = auxIfo.getTriplesMapGraph();
         //Map<String, List<String>> blankNodesColumnCoverage = auxIfo.getBlankNodesColumnCoverage(); //..not necessary
         //Map<String, String> blankNodesUriPrefixMap = auxIfo.getBlankNodesUriPrefixMap(); //..not necessary
         Map<String, List<PredicateObjectMap>> columnNameToPredObjMLinks = auxIfo.getColumnNameToPredObjLinks();
 
-        List<SupportStatement> mvm = model.readAllInfo();
-        //get from the web karma model all the information for set the semantic type
-        List<Statement> stmt = SupportUtil.convertToJenaStatement(mvm);
+        //
+        /*KR2RMLRDFWriter writer = new KR2RMLRDFWriter() {
+        }
+*/
 
+
+
+
+
+        //Tested
+        List<SupportStatement> mvm = model.readAllInfo();
+        SupportUtil.createTriplesMap(mvm,"http://test#");
+
+
+
+
+
+        //get from the web karma model all the information for set the semantic type
+        //List<Statement> stmt = SupportUtil.convertToJenaStatement(mvm);
 
         Map<String, String> subjectMapIdToTemplateAnchor = auxIfo.getSubjectMapIdToTemplateAnchor();
+
+
+        //TRY to create a TriplesMap
+
+
 
         //TESTED PredicateObjectsMap READ
        /* boolean b1 = model.hasTriplesMap("name_location");
