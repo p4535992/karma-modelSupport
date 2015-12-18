@@ -30,12 +30,13 @@ public class GenerationRDFSupport {
 
     private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GenerationRDFSupport.class);
 
-    protected GenerationRDFSupport() {}
+    protected GenerationRDFSupport() {
+    }
 
     private static GenerationRDFSupport instance = null;
 
-    public static GenerationRDFSupport getInstance(){
-        if(instance == null) {
+    public static GenerationRDFSupport getInstance() {
+        if (instance == null) {
             instance = new GenerationRDFSupport();
         }
         return instance;
@@ -43,73 +44,76 @@ public class GenerationRDFSupport {
 
     /**
      * Method to generate triple file with Web-Karma API from a local file:JSON,CSV,XML,AVRO.
-     * @param karmaModel the path to the model R2RML turtle of Karma e.g. "karma_files/model/".
+     *
+     * @param karmaModel   the path to the model R2RML turtle of Karma e.g. "karma_files/model/".
      * @param fileOftriple the path to the output file of triple e.g. "karma_files/output/".
-     * @param conn the Connection java SQL to a Database.
-     * @param nameOfTable String name of the table to triplify with the karma Model.
+     * @param conn         the Connection java SQL to a Database.
+     * @param nameOfTable  String name of the table to triplify with the karma Model.
      * @return the file of triple generated with Web-karma.
-     * @throws IOException throw if the File not exists.
+     * @throws IOException  throw if the File not exists.
      * @throws SQLException throw if there is some problem with the Connection.
      */
-    public File generateRDF(File karmaModel,File fileOftriple,Connection conn,String nameOfTable)
+    public File generateRDF(File karmaModel, File fileOftriple, Connection conn, String nameOfTable)
             throws IOException, SQLException {
         DatabaseMetaData dbm = conn.getMetaData();
-        return generateRDF("DB",karmaModel.getAbsolutePath(),fileOftriple.getAbsolutePath(),
-                getDbType(dbm).name(),getHostFromUrl(dbm.getURL()),getUsernameFromUrl(dbm.getURL()),
-                getPasswordFromUrl(dbm.getURL()),String.valueOf(getPortFromUrl(dbm.getURL())),conn.getCatalog(),nameOfTable);
+        return generateRDF("DB", karmaModel.getAbsolutePath(), fileOftriple.getAbsolutePath(),
+                getDbType(dbm).name(), getHostFromUrl(dbm.getURL()), getUsernameFromUrl(dbm.getURL()),
+                getPasswordFromUrl(dbm.getURL()), String.valueOf(getPortFromUrl(dbm.getURL())), conn.getCatalog(), nameOfTable);
     }
 
 
     /**
      * Method to generate triple file with Web-Karma API from a local file:JSON,CSV,XML,AVRO.
      * Note: sourceTypeKarma the Source Type of karma e.g. "DB"  A database.
-     * @param karmaModel the path to the model R2RML turtle of Karma e.g. "karma_files/model/".
-     * @param fileOftriple the path to the output file of triple e.g. "karma_files/output/".
-     * @param dbTypeKarma the DBType of database sue with KARMA e.g. "MySQL","Oracle","SQLServer","PostGIS".
-     * @param hostname the hostname where is allocated the database e.g. "localhost".
-     * @param username the username of the database.
-     * @param password the password of the database.
-     * @param port the port of the database.
+     *
+     * @param karmaModel     the path to the model R2RML turtle of Karma e.g. "karma_files/model/".
+     * @param fileOftriple   the path to the output file of triple e.g. "karma_files/output/".
+     * @param dbTypeKarma    the DBType of database sue with KARMA e.g. "MySQL","Oracle","SQLServer","PostGIS".
+     * @param hostname       the hostname where is allocated the database e.g. "localhost".
+     * @param username       the username of the database.
+     * @param password       the password of the database.
+     * @param port           the port of the database.
      * @param nameOfDatabase the name of the database.
-     * @param nameOfTable the username of the table of the database.
+     * @param nameOfTable    the username of the table of the database.
      * @return the file of triple generated with Web-karma.
      * @throws IOException throw if any error is occurred.
      */
-    public File generateRDF(File karmaModel,File fileOftriple,DBType dbTypeKarma,String hostname,String username,
-                            String password,String port,String nameOfDatabase,String nameOfTable) throws IOException {
+    public File generateRDF(File karmaModel, File fileOftriple, DBType dbTypeKarma, String hostname, String username,
+                            String password, String port, String nameOfDatabase, String nameOfTable) throws IOException {
         String sourceTypeKarma = "DB";
-        return generateRDF(sourceTypeKarma,karmaModel.getAbsolutePath(),fileOftriple.getAbsolutePath(),
-                dbTypeKarma.name(),hostname,username,password,port,nameOfDatabase,nameOfTable);
+        return generateRDF(sourceTypeKarma, karmaModel.getAbsolutePath(), fileOftriple.getAbsolutePath(),
+                dbTypeKarma.name(), hostname, username, password, port, nameOfDatabase, nameOfTable);
     }
 
     /**
      * Method to generate triple file with Web-Karma API from a local file:JSON,CSV,XML,AVRO.
-     * @param sourceTypeKarma the Source Type of karma e.g. "DB"  A database.
-     * @param pathToFileKarmaModel the path to the model R2RML turtle of Karma e.g. "karma_files/model/".
+     *
+     * @param sourceTypeKarma        the Source Type of karma e.g. "DB"  A database.
+     * @param pathToFileKarmaModel   the path to the model R2RML turtle of Karma e.g. "karma_files/model/".
      * @param pathFileTripleOfOutput the path to the output file of triple e.g. "karma_files/output/".
-     * @param dbTypeKarma the type of database sue with KARMA e.g. "MySQL","Oracle","SQLServer","PostGIS".
-     * @param hostname the hostname where is allocated the database e.g. "localhost".
-     * @param username the username of the database.
-     * @param password the password of the database.
-     * @param port the port of the database.
-     * @param nameOfDatabase the name of the database.
-     * @param nameOfTable the username of the table of the database.
+     * @param dbTypeKarma            the type of database sue with KARMA e.g. "MySQL","Oracle","SQLServer","PostGIS".
+     * @param hostname               the hostname where is allocated the database e.g. "localhost".
+     * @param username               the username of the database.
+     * @param password               the password of the database.
+     * @param port                   the port of the database.
+     * @param nameOfDatabase         the name of the database.
+     * @param nameOfTable            the username of the table of the database.
      * @return the file of triple generated with Web-karma.
      * @throws IOException throw if any error is occurred.
      */
-    private File generateRDF(String sourceTypeKarma,String pathToFileKarmaModel,
-                       String pathFileTripleOfOutput,String dbTypeKarma,String hostname,String username,String password,
-                       String port,String nameOfDatabase,String nameOfTable) throws IOException {
-        String pathOut = pathFileTripleOfOutput+"";
+    private File generateRDF(String sourceTypeKarma, String pathToFileKarmaModel,
+                             String pathFileTripleOfOutput, String dbTypeKarma, String hostname, String username, String password,
+                             String port, String nameOfDatabase, String nameOfTable) throws IOException {
+        String pathOut = pathFileTripleOfOutput + "";
 
         String[] value = new String[]{
-                sourceTypeKarma,pathToFileKarmaModel,pathOut,
-                dbTypeKarma,hostname,username,password,
-                port,nameOfDatabase,nameOfTable
+                sourceTypeKarma, pathToFileKarmaModel, pathOut,
+                dbTypeKarma, hostname, username, password,
+                port, nameOfDatabase, nameOfTable
         };
         String[] param = new String[]{
-                "--sourcetype", "--modelfilepath","--outputfile", "--dbtype","--hostname",
-                "--username","--password","--portnumber","--dbname","--tablename"
+                "--sourcetype", "--modelfilepath", "--outputfile", "--dbtype", "--hostname",
+                "--username", "--password", "--portnumber", "--dbname", "--tablename"
                 //"--encoding"
         };
         String[] args2;
@@ -120,53 +124,68 @@ public class GenerationRDFSupport {
             OfflineRdfGenerator.main(args2);
             logger.info("...file of triples created with name:" + pathOut);
             return new File(pathOut);
-        }catch(Exception ex){
-            logger.error(ex.getLocalizedMessage(),ex);
+        } catch (Exception ex) {
+            logger.error(ex.getLocalizedMessage(), ex);
             return new File(pathOut);
         }
     }
 
     /**
      * Method to generate triple file with Web-KArma API from a local file:JSON,CSV,XML,AVRO.
-     * @param karmaModel file Model R2RML of Web-Karma.
-     * @param inputData File input data.
+     *
+     * @param karmaModel   file Model R2RML of Web-Karma.
+     * @param inputData    File input data.
      * @param fileOfTriple file support where save the file of triples generated.
      * @return the File output of triple (.n3,.rdf).
      */
-    public File generateRDF(File karmaModel,File inputData,File fileOfTriple){
-        return generationOfTripleWithKarma(karmaModel, inputData,fileOfTriple);
+    public File generateRDF(File karmaModel, File inputData, File fileOfTriple) {
+        return generationOfTripleWithKarma(karmaModel, inputData, fileOfTriple);
     }
 
     /**
      * Method to generate triple file with Web-KArma API from a local file:JSON,CSV,XML,AVRO.
-     * @param karmaModel file Model R2RML of Web-Karma.
-     * @param inputData Stream input data.
-     * @param fileOfTriple file support where save the file of triples generated.
+     *
+     * @param karmaModel   file Model R2RML of Web-Karma.
+     * @param inputData    File input data.
      * @return the File output of triple (.n3,.rdf).
      */
-    public File generateRDF(File karmaModel,InputStream inputData,File fileOfTriple){
-        return generationOfTripleWithKarma(karmaModel, inputData,fileOfTriple);
+    public File generateRDF(File karmaModel, File inputData) {
+        return generationOfTripleWithKarma(karmaModel, inputData, null);
     }
 
     /**
      * Method to generate triple file with Web-KArma API from a local file:JSON,CSV,XML,AVRO.
-     * @param karmaModel file Model R2RML of Web-Karma.
-     * @param inputData String input data.
+     *
+     * @param karmaModel   file Model R2RML of Web-Karma.
+     * @param inputData    Stream input data.
      * @param fileOfTriple file support where save the file of triples generated.
      * @return the File output of triple (.n3,.rdf).
      */
-    public File generateRDF(File karmaModel,String inputData,File fileOfTriple){
-        return generationOfTripleWithKarma(karmaModel, inputData,fileOfTriple);
+    public File generateRDF(File karmaModel, InputStream inputData, File fileOfTriple) {
+        return generationOfTripleWithKarma(karmaModel, inputData, fileOfTriple);
     }
 
     /**
      * Method to generate triple file with Web-KArma API from a local file:JSON,CSV,XML,AVRO.
-     * @param karmaModel file Model R2RML of Web-Karma.
-     * @param inputData input put like String,File,InputStream.
+     *
+     * @param karmaModel   file Model R2RML of Web-Karma.
+     * @param inputData    String input data.
      * @param fileOfTriple file support where save the file of triples generated.
      * @return the File output of triple (.n3,.rdf).
      */
-    private File generationOfTripleWithKarma(File karmaModel,Object inputData,File fileOfTriple){
+    public File generateRDF(File karmaModel, String inputData, File fileOfTriple) {
+        return generationOfTripleWithKarma(karmaModel, inputData, fileOfTriple);
+    }
+
+    /**
+     * Method to generate triple file with Web-KArma API from a local file:JSON,CSV,XML,AVRO.
+     *
+     * @param karmaModel   file Model R2RML of Web-Karma.
+     * @param inputData    input put like String,File,InputStream.
+     * @param fileOfTriple file support where save the file of triples generated.
+     * @return the File output of triple (.n3,.rdf).
+     */
+    private File generationOfTripleWithKarma(File karmaModel, Object inputData, File fileOfTriple) {
         try {
             GenericRDFGenerator rdfGenerator = new GenericRDFGenerator("DEFAULT_TEST");
             R2RMLMappingIdentifier modelIdentifier = new R2RMLMappingIdentifier(
@@ -174,42 +193,51 @@ public class GenerationRDFSupport {
             rdfGenerator.addModel(modelIdentifier);
             PrintWriter pw = new PrintWriter(new StringWriter());
             N3KR2RMLRDFWriter writer = new N3KR2RMLRDFWriter(new URIFormatter(), pw);
-            RDFGeneratorRequest request;
-            fileOfTriple.createNewFile();
-            if (fileOfTriple.exists()) {
+            RDFGeneratorRequest request = null;
+
+            if(fileOfTriple == null && inputData instanceof File){
+                request = new RDFGeneratorRequest(
+                        getFilenameWithoutExt(karmaModel), //"people-model"
+                        getLocalPath(((File)inputData).getAbsolutePath())); //"files/data/people.json"
+            }else {
+                fileOfTriple.createNewFile();
                 request = new RDFGeneratorRequest(
                         getFilenameWithoutExt(karmaModel), //"people-model"
                         getLocalPath(fileOfTriple.getAbsolutePath())); //"files/data/people.json"
-
-                if(inputData instanceof File) request.setInputFile((File) inputData);
-                else if(inputData instanceof String) request.setInputData((String) inputData);
-                else if(inputData instanceof InputStream) request.setInputStream((InputStream) inputData);
-                else{
-                    logger.error("The InputData is in a not supported format, must be a File, String or InputStream");
-                    return fileOfTriple;
-                }
-
-                request.setAddProvenance(true);
-                if(fileOfTriple.getAbsolutePath().toLowerCase().endsWith(".json")) request.setDataType(GenericRDFGenerator.InputType.JSON);
-                else if(fileOfTriple.getAbsolutePath().toLowerCase().endsWith(".xml")) request.setDataType(GenericRDFGenerator.InputType.XML);
-                else if(fileOfTriple.getAbsolutePath().toLowerCase().endsWith(".csv")) request.setDataType(GenericRDFGenerator.InputType.CSV);
-                else if(fileOfTriple.getAbsolutePath().toLowerCase().endsWith(".avro")) request.setDataType(GenericRDFGenerator.InputType.AVRO);
-                else{
-                   logger.error("This file:" + fileOfTriple.getAbsolutePath() +
-                            " can't be triplify with Web-Karma these are the permittted format JSON.CSV,XML,AVRO");
-                    throw  new KarmaException("This file:" + fileOfTriple.getAbsolutePath() +
-                            " can't be triplify with Web-Karma these are the permittted format JSON.CSV,XML,AVRO");
-                }
-
-                request.addWriter(writer);
-                rdfGenerator.generateRDF(request);
             }
-            else{
-                logger.error("The InputStream is NULL!!!");
+
+            if (inputData instanceof File) request.setInputFile((File) inputData);
+            else if (inputData instanceof String) request.setInputData((String) inputData);
+            else if (inputData instanceof InputStream) request.setInputStream((InputStream) inputData);
+            else {
+                logger.error("The InputData is in a not supported format, must be a File, String or InputStream");
+                return fileOfTriple;
             }
+            request.setAddProvenance(true);
+            if(fileOfTriple == null){
+                request.setDataType(GenericRDFGenerator.InputType.JSON);
+            }else {
+                if (fileOfTriple.getAbsolutePath().toLowerCase().endsWith(".json"))
+                    request.setDataType(GenericRDFGenerator.InputType.JSON);
+                else if (fileOfTriple.getAbsolutePath().toLowerCase().endsWith(".xml"))
+                    request.setDataType(GenericRDFGenerator.InputType.XML);
+                else if (fileOfTriple.getAbsolutePath().toLowerCase().endsWith(".csv"))
+                    request.setDataType(GenericRDFGenerator.InputType.CSV);
+                else if (fileOfTriple.getAbsolutePath().toLowerCase().endsWith(".avro"))
+                    request.setDataType(GenericRDFGenerator.InputType.AVRO);
+                else {
+                    logger.error("This file:" + fileOfTriple.getAbsolutePath() +
+                            " can't be triplify with Web-Karma these are the permittted format JSON.CSV,XML,AVRO");
+                    throw new KarmaException("This file:" + fileOfTriple.getAbsolutePath() +
+                            " can't be triplify with Web-Karma these are the permittted format JSON.CSV,XML,AVRO");
+                }
+            }
+            request.addWriter(writer);
+            rdfGenerator.generateRDF(request);
+
             logger.info("Generated RDF: " + pw.toString());
             return fileOfTriple;
-        } catch (KarmaException|IOException e) {
+        } catch (KarmaException | IOException e) {
             logger.error(e.getLocalizedMessage(), e);
             return fileOfTriple;
         }
@@ -222,20 +250,22 @@ public class GenerationRDFSupport {
 
     /**
      * Method for get the filename without extension.
+     *
      * @param f file of input
      * @return name of the file without the extension
      */
-     private String getFilenameWithoutExt(File f) {
+    private String getFilenameWithoutExt(File f) {
         return getFilenameWithoutExt(f.getAbsolutePath());
     }
 
     /**
      * Method for get the filename without extension.
+     *
      * @param fullPath string of the path to the file
      * @return name of the file without the extension
      */
     private String getFilenameWithoutExt(String fullPath) {
-        if(!fullPath.contains(".")) fullPath = fullPath +". ";
+        if (!fullPath.contains(".")) fullPath = fullPath + ". ";
         int dot = fullPath.lastIndexOf(".");
         int sep = fullPath.lastIndexOf(File.separatorChar);
         return fullPath.substring(sep + 1, dot);
@@ -243,32 +273,40 @@ public class GenerationRDFSupport {
 
     /**
      * Method or get the local path in the project.
+     *
      * @param file File object.
      * @return the local path to the file in the project.
      */
-     private String getLocalPath(File file){ return getLocalPath("", file.getAbsolutePath());}
+    private String getLocalPath(File file) {
+        return getLocalPath("", file.getAbsolutePath());
+    }
 
     /**
      * Method for get the local path in the project.
+     *
      * @param absolutePath string of the absolute path to the file in the project.
      * @return the local path to the file in the project
      */
-     private String getLocalPath(String absolutePath){return getLocalPath("", absolutePath);}
+    private String getLocalPath(String absolutePath) {
+        return getLocalPath("", absolutePath);
+    }
 
     /**
      * Method for get the local path in the project.
-     * @param basePath string of the absolute path to the direcotry of the project.
+     *
+     * @param basePath  string of the absolute path to the direcotry of the project.
      * @param localPath string of the absolute path to the file in the project.
      * @return the local path to the file in the project
      */
-     private String getLocalPath(String basePath,String localPath){
-        basePath = basePath.replace(System.getProperty("user.dir"),"");
-        return basePath+File.separator+localPath;
+    private String getLocalPath(String basePath, String localPath) {
+        basePath = basePath.replace(System.getProperty("user.dir"), "");
+        return basePath + File.separator + localPath;
     }
 
     /**
      * Merge the content of two arrays of string with same size for
      * make the args for a main method java class with option e home.
+     *
      * @param param array of parameter.
      * @param value array of values.
      * @return merged array.
@@ -276,7 +314,7 @@ public class GenerationRDFSupport {
     private String[] mergeArraysForInput(String[] param, String[] value) {
         String[] array = (String[]) Array.newInstance(param[0].getClass(), param.length + value.length);
         int j = 0;
-        if(param.length==value.length) {
+        if (param.length == value.length) {
             //array = new T[param.length+value.length];
             //array = (T[]) Array.newInstance(param[0].getClass(),param.length+value.length);
             for (int i = 0; i < param.length; i++) {
@@ -286,7 +324,7 @@ public class GenerationRDFSupport {
                 j = j + 1;
                 array[j] = value[i];
             }
-        }else{
+        } else {
             logger.warn("WARNING: Check your array size");
         }
         return array;
@@ -295,6 +333,7 @@ public class GenerationRDFSupport {
 
     /**
      * Method to get the Karma DBType from the information of a java Connection SQL.
+     *
      * @param conn the Connection object to a database.
      * @return the DbType of the Database.
      * @throws SQLException throw if any error occurred with the SQL Connection.
@@ -306,22 +345,24 @@ public class GenerationRDFSupport {
 
     /**
      * Method to get the Karma DBType from the information of a java Connection SQL.
+     *
      * @param dbm the DatabaseMetaData of the Connection.
      * @return the DbType of the Database.
      * @throws SQLException throw if any error occurred with the SQL Connection.
      */
     private DBType getDbType(DatabaseMetaData dbm) throws SQLException {
         String type = dbm.getDatabaseProductName();
-        if(type.equals(DBType.MySQL.name())|| type.equals("MySQL"))return DBType.MySQL;
-        else if(type.equals(DBType.Oracle.name()) || type.equals("Oracle"))return DBType.Oracle;
-        else if(type.equals(DBType.PostGIS.name()) || type.equals("PostgreSQL")) return DBType.PostGIS;
-        else if(type .equals(DBType.SQLServer.name()) || type.equals("Microsoft SQL Server")) return DBType.SQLServer;
-        else if(type .equals(DBType.Sybase.name())) return DBType.Sybase;
+        if (type.equals(DBType.MySQL.name()) || type.equals("MySQL")) return DBType.MySQL;
+        else if (type.equals(DBType.Oracle.name()) || type.equals("Oracle")) return DBType.Oracle;
+        else if (type.equals(DBType.PostGIS.name()) || type.equals("PostgreSQL")) return DBType.PostGIS;
+        else if (type.equals(DBType.SQLServer.name()) || type.equals("Microsoft SQL Server")) return DBType.SQLServer;
+        else if (type.equals(DBType.Sybase.name())) return DBType.Sybase;
         throw new IllegalArgumentException("couldn't find dbType Karma for the type database '" + type + "'");
     }
 
     /**
      * Method to get the String name of the host by the String URL of the jdbc driver.
+     *
      * @param url the String of the URL of the jdbc driver.
      * @return the String name of the host.
      */
@@ -329,7 +370,7 @@ public class GenerationRDFSupport {
         String regexForHostAndPort = "[.\\w]+:\\d+";
         Pattern hostAndPortPattern = Pattern.compile(regexForHostAndPort);
         Matcher matcher = hostAndPortPattern.matcher(url);
-        if(matcher.find()) {
+        if (matcher.find()) {
             int start = matcher.start();
             int end = matcher.end();
             if (start >= 0 && end >= 0) {
@@ -344,6 +385,7 @@ public class GenerationRDFSupport {
 
     /**
      * Method to get the Integer value of the port by the String URL of the jdbc driver.
+     *
      * @param url the String of the URL of the jdbc driver.
      * @return the String name of the host.
      */
@@ -351,7 +393,7 @@ public class GenerationRDFSupport {
         String regexForHostAndPort = "[.\\w]+:\\d+";
         Pattern hostAndPortPattern = Pattern.compile(regexForHostAndPort);
         Matcher matcher = hostAndPortPattern.matcher(url);
-        if(matcher.find()) {
+        if (matcher.find()) {
             int start = matcher.start();
             int end = matcher.end();
             if (start >= 0 && end >= 0) {
@@ -366,38 +408,40 @@ public class GenerationRDFSupport {
 
     /**
      * Method to get the String value of the username by the String URL of the jdbc driver.
+     *
      * @param url the String of the URL of the jdbc driver.
      * @return the String name of the host.
      */
-    public static String getUsernameFromUrl(String url){
+    public static String getUsernameFromUrl(String url) {
         Pattern pat = Pattern.compile("(\\&|\\?|\\=|\\/)?(user|username)(\\=)(.*?)(\\&|\\?|\\=|\\/|\\s)+", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pat.matcher(url  + " ");
-        if(matcher.find())  {
+        Matcher matcher = pat.matcher(url + " ");
+        if (matcher.find()) {
             String[] find = (matcher.group(0)).split("=");
-            return find[1].substring(0,find[1].length()-1);
+            return find[1].substring(0, find[1].length() - 1);
         }
         throw new IllegalArgumentException("couldn't find pattern '" + pat.toString() + "' in '" + url + "'");
     }
 
     /**
      * Method to get the String value of the password by the String URL of the jdbc driver.
+     *
      * @param url the String of the URL of the jdbc driver.
      * @return the String name of the host.
      */
-    public static String getPasswordFromUrl(String url){
+    public static String getPasswordFromUrl(String url) {
         Pattern pat = Pattern.compile("(\\&|\\?|\\=|\\/)?(pass|password)(\\=)(.*?)(\\&|\\?|\\=|\\/|\\s)+", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pat.matcher(url + " ");
-        if(matcher.find())  {
+        if (matcher.find()) {
             String[] find = (matcher.group(0)).split("=");
-            return find[1].substring(0,find[1].length()-1);
+            return find[1].substring(0, find[1].length() - 1);
         }
         throw new IllegalArgumentException("couldn't find pattern '" + pat.toString() + "' in '" + url + "'");
     }
 
 
-    //------------------------------------------------------------
-    // TEST
-    //------------------------------------------------------------
+//------------------------------------------------------------
+// TEST
+//------------------------------------------------------------
 
    /* public static void main(String args[]) throws IOException, SQLException, ClassNotFoundException {
         File r2rml = new File("" +
