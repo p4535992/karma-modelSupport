@@ -1,5 +1,9 @@
 package edu.isi.karma.support;
 
+<<<<<<< HEAD
+=======
+import edu.isi.karma.cleaning.Template;
+>>>>>>> origin/master
 import edu.isi.karma.kr2rml.*;
 import edu.isi.karma.kr2rml.formatter.KR2RMLColumnNameFormatter;
 import edu.isi.karma.kr2rml.mapping.KR2RMLMappingAuxillaryInformation;
@@ -76,6 +80,7 @@ public class ApplyOtherSupport extends ApplyMappingSupport {
         return new File(mapping.getId().getLocation().toURI());
     }
 
+<<<<<<< HEAD
     /*protected MultiValueMap readAllInfoImpl(){
         Map<String, List<PredicateObjectMap>> columnNameToPredObjMLinks =
                 mapping.getAuxInfo().getColumnNameToPredObjLinks();
@@ -250,6 +255,57 @@ public class ApplyOtherSupport extends ApplyMappingSupport {
         return listStatement;
     }
 
+=======
+    //TODO try to find a better method from the code of Web-karma for extract these information
+    protected List<SupportStatement> readAllInfoImpl(){
+        List<SupportStatement> listStatement = new ArrayList<>();
+        int indexEntry;
+        Map<String,SubjectMap> mapSubject = mapping.getSubjectMapIndex();
+        List<SupportSubjectMap> listSub = new ArrayList<>();
+        //Prepare the SupportSubjectMap Object
+        for(Map.Entry<String,SubjectMap> entrySub : mapSubject.entrySet()) {
+            //SupportSubjectMap supportSubjectMap = new SupportSubjectMap();
+            List<String> rdfsTypeSub = new ArrayList<>();
+            for (TemplateTermSet tts : entrySub.getValue().getRdfsType()) {
+                for (TemplateTerm tt : tts.getAllTerms()) {
+                    rdfsTypeSub.add(tt.getTemplateTermValue());
+                }
+            }
+            listSub.add(new SupportSubjectMap(
+                    entrySub.getValue().getId(),
+                    entrySub.getValue().getTemplate().getAllTerms().get(0).getTemplateTermValue(),
+                    rdfsTypeSub));
+        }
+
+        for (SupportSubjectMap aListSub : listSub) {
+            String id = aListSub.getId();
+            indexEntry = 0;
+            //Subject: for each rdf:type assigned to subject
+            Map<String, List<PredicateObjectMap>> columnNameToPredObjMLinks = mapping.getAuxInfo().getColumnNameToPredObjLinks();
+            for (Map.Entry<String, List<PredicateObjectMap>> entry : columnNameToPredObjMLinks.entrySet()) {
+                if (indexEntry >= listSub.size()) break;
+                indexEntry++;
+                for (PredicateObjectMap pom : entry.getValue()) {
+                    if(pom.getTriplesMap().getSubject().getTemplate().getAllTerms().get(0).getTemplateTermValue()
+                            .equals(aListSub.getColumnHNodeId())) {
+                        //Start build list of predicate and object.
+                        //PredicateObjectMap
+                        List<PredicateObjectMap> listPredicate = pom.getTriplesMap().getPredicateObjectMaps();
+                        for (int i = 0; i < listPredicate.size(); i++) {
+                            PredicateObjectMap predObjMap = pom.getTriplesMap().getPredicateObjectMaps().get(i);
+                            SupportPredicateObjectMap supportPredicateObjectMap;
+                            supportPredicateObjectMap = new SupportPredicateObjectMap(predObjMap);
+                            listStatement.add(new SupportStatement(aListSub, supportPredicateObjectMap));
+                        }//for
+                    }//if
+                }
+            }
+        }//for each subject
+        return listStatement;
+    }
+
+
+>>>>>>> origin/master
     protected Map<String, List<PredicateObjectMap>> createColumnNameToPredObjMLinks(
             String id,String subjectNameColumn,Map multiValueMap,String graphUri){
         Set entrySet = multiValueMap.entrySet();
@@ -263,6 +319,7 @@ public class ApplyOtherSupport extends ApplyMappingSupport {
         }
         return null;
     }
+<<<<<<< HEAD
 
 
 
@@ -276,4 +333,6 @@ public class ApplyOtherSupport extends ApplyMappingSupport {
 
 
 
+=======
+>>>>>>> origin/master
 }

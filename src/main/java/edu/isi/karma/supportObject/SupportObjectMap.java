@@ -3,6 +3,10 @@ package edu.isi.karma.supportObject;
 import edu.isi.karma.kr2rml.NamedGraph;
 import edu.isi.karma.kr2rml.ObjectMap;
 import edu.isi.karma.kr2rml.RefObjectMap;
+<<<<<<< HEAD
+=======
+import edu.isi.karma.kr2rml.SubjectMap;
+>>>>>>> origin/master
 import edu.isi.karma.kr2rml.planning.TriplesMap;
 import edu.isi.karma.kr2rml.template.ColumnTemplateTerm;
 import edu.isi.karma.kr2rml.template.TemplateTerm;
@@ -27,6 +31,7 @@ public class SupportObjectMap {
 
     public SupportObjectMap(ObjectMap objectMap) {
         this.id = objectMap.getId();
+<<<<<<< HEAD
         this.columnHNodeId = objectMap.getTemplate().getAllTerms().get(0).getTemplateTermValue();
         this.rdfsLiteralTypes = objectMap.getRdfLiteralType();
         List<String> list = new ArrayList<>();
@@ -37,11 +42,39 @@ public class SupportObjectMap {
         if(objectMap.getRefObjectMap().getParentTriplesMap().getSubject().getGraph() !=null){
             this.graph = objectMap.getRefObjectMap().getParentTriplesMap().getSubject().getGraph();
             this.graphUri = this.graph.getGraphLabel().getUri();
+=======
+        if(objectMap.getTemplate() !=null) {
+            this.columnHNodeId = objectMap.getTemplate().getAllTerms().get(0).getTemplateTermValue();
+        }else{
+            this.columnHNodeId =
+                    objectMap.getRefObjectMap().getParentTriplesMap().getSubject()
+                            .getTemplate().getAllTerms().get(0).getTemplateTermValue();
+        }
+        if(objectMap.getRdfLiteralType() !=null) {
+            this.rdfsLiteralTypes = objectMap.getRdfLiteralType();
+            List<String> list = new ArrayList<>();
+            for (TemplateTerm term : rdfsLiteralTypes.getAllTerms()) {
+                list.add(term.getTemplateTermValue());
+            }
+            this.rdfsLiteralTypesString = list;
+        }else{
+            this.rdfsLiteralTypesString = new ArrayList<>();
+        }
+        if(objectMap.getRefObjectMap()!=null) {
+            if (objectMap.getRefObjectMap().getParentTriplesMap().getSubject().getGraph() != null) {
+                this.graph = objectMap.getRefObjectMap().getParentTriplesMap().getSubject().getGraph();
+                this.graphUri = this.graph.getGraphLabel().getUri();
+            }
+>>>>>>> origin/master
         }
         this.objectMap = objectMap;
     }
 
+<<<<<<< HEAD
     public SupportObjectMap(String id,String columnName,List<String> rdfsLiteralType,String graphUri) {
+=======
+   /* public SupportObjectMap(String id,String columnName,List<String> rdfsLiteralType,String graphUri) {
+>>>>>>> origin/master
         this.id = id;
         this.columnHNodeId = columnName;
         this.rdfsLiteralTypes = createTemplateTermSetByColumn(rdfsLiteralType);
@@ -75,9 +108,15 @@ public class SupportObjectMap {
         this.rdfsLiteralTypes = createTemplateTermSetByColumn(rdfLiteralType);
         this.rdfsLiteralTypesString = Collections.singletonList(rdfLiteralType);
         this.objectMap = createObjectMap(id,createTemplateTermSetByColumn(columnHNodeId),rdfsLiteralTypes);
+<<<<<<< HEAD
     }
 
     private ObjectMap createObjectMap(String id,TemplateTermSet template,TemplateTermSet rdfLiteralType){
+=======
+    }*/
+
+    /*private ObjectMap createObjectMap(String id,TemplateTermSet template,TemplateTermSet rdfLiteralType){
+>>>>>>> origin/master
         return new ObjectMap(id,template,rdfLiteralType);
     }
 
@@ -105,7 +144,11 @@ public class SupportObjectMap {
 
     private NamedGraph createGraph(String graphUri){
         return new NamedGraph(new Label(graphUri));
+<<<<<<< HEAD
     }
+=======
+    }*/
+>>>>>>> origin/master
 
     public String getId() {
         return id;

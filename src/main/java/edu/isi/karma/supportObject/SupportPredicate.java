@@ -16,9 +16,13 @@ public class SupportPredicate {
 
     private Predicate predicate;
     private String id;
+<<<<<<< HEAD
     private List<String> rdfsType;
 
     private String nameSpaceType = RDF.TYPE.toString();
+=======
+    private List<String> rdfsTypeString;
+>>>>>>> origin/master
 
     public SupportPredicate() {}
 
@@ -28,20 +32,34 @@ public class SupportPredicate {
         for(TemplateTerm termValue: predicate.getTemplate().getAllTerms()){
             rdfsType.add(termValue.getTemplateTermValue());
         }
+<<<<<<< HEAD
         this.rdfsType = rdfsType;
+=======
+        this.rdfsTypeString = cleanList(rdfsType);
+>>>>>>> origin/master
         this.predicate = predicate;
     }
 
     public SupportPredicate(String id,String rdfType) {
         this.id = id;
+<<<<<<< HEAD
         this.rdfsType = Collections.singletonList(rdfType);
         this.predicate = createPredicate(this.id,this.rdfsType);
+=======
+        this.rdfsTypeString = cleanList(Collections.singletonList(rdfType));
+        this.predicate = createPredicate(this.id,this.rdfsTypeString);
+>>>>>>> origin/master
     }
 
     public SupportPredicate(String id,List<String> rdfsType) {
         this.id = id;
+<<<<<<< HEAD
         this.rdfsType = rdfsType;
         this.predicate = createPredicate(this.id,this.rdfsType);
+=======
+        this.rdfsTypeString = cleanList(rdfsType);
+        this.predicate = createPredicate(this.id,this.rdfsTypeString);
+>>>>>>> origin/master
     }
 
     private Predicate createPredicate(String id,String rdfType){
@@ -68,12 +86,30 @@ public class SupportPredicate {
         return tts;
     }
 
+<<<<<<< HEAD
     public List<String> getRdfType() {
         return rdfsType;
     }
 
     public void setRdfType(List<String> rdfType) {
         this.rdfsType = rdfType;
+=======
+    private List<String> cleanList(List<String> rdfsType){
+        for(int i = 0; i < rdfsType.size(); i++){
+            if(rdfsType.get(i).contains("http://isi.edu/integration/karma/dev#")){
+                rdfsType.set(i,RDF.TYPE.toString());
+            }
+        }
+        return rdfsType;
+    }
+
+    public List<String> getRdfType() {
+        return rdfsTypeString;
+    }
+
+    public void setRdfType(List<String> rdfType) {
+        this.rdfsTypeString = rdfType;
+>>>>>>> origin/master
     }
 
     public String getId() {
@@ -95,7 +131,11 @@ public class SupportPredicate {
     @Override
     public String toString() {
         return "SupportPredicate{" +
+<<<<<<< HEAD
                 "rdfType='" + rdfsType + '\'' +
+=======
+                "rdfType='" + rdfsTypeString + '\'' +
+>>>>>>> origin/master
                 '}';
     }
 }

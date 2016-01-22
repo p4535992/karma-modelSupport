@@ -154,6 +154,23 @@ NOTE: Not Finished yet. For now require 'karma-common','karma-commands','karma-j
     List<TemplateTermSet> rdfType = model.readRdfsType(0);
     List<TemplateTermSet> rdftype2 = model.readRdfType("name_location");
     TemplateTermSet rdftype3 = model.readRdfType("name_location",0);
+<<<<<<< HEAD
+=======
+```
+###### READ all column name of a table and extract a structure subject -> predicate -> object
+```java
+    List<SupportStatement> mvm = model.readAllInfo();
+    //get from the web karma model all the information for set the semantic type
+    for(SupportStatement ss: mvm){
+        //name source column
+        String sourceColumn = ss.getSubjectMap().getColumnHNodeId();
+        //list of rdf type assign to the source column
+        List<String> rdfTypeOfSourceColumn = ss.getSubjectMap().getRdfsTypeString();
+        List<String> predicateRdfType = ss.getListPredicate();
+        List<String> objectMapRdfType = ss.getListObjectMap();
+        String test = "";
+    }
+>>>>>>> origin/master
 ```
 ### TODO
 

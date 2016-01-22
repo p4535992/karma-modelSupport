@@ -24,11 +24,27 @@ public class SupportSubjectMap {
     private List<TemplateTermSet> rdfsType;
     private List<String> rdfsTypeString;
 
+<<<<<<< HEAD
     private String nameSpaceKarma = "http://isi.edu/integration/karma/dev#"+this.id;
+=======
+    private String nameSpaceKarmaId = "http://isi.edu/integration/karma/dev#"+this.id;
+
+    public String getNameSpaceKarma() {
+        return nameSpaceKarmaId ;
+    }
+
+    public void setNameSpaceKarma(String nameSpaceKarma) {
+        this.nameSpaceKarmaId  = nameSpaceKarma;
+    }
+>>>>>>> origin/master
 
     public SupportSubjectMap() {}
 
     public SupportSubjectMap(String id,String columnName,List<String> rdfsType,String graphUri) {
+<<<<<<< HEAD
+=======
+        this.id = id;
+>>>>>>> origin/master
         this.columnHNodeId = columnName;
         this.rdfsType = createRdfsType(rdfsType);
         this.rdfsTypeString = rdfsType;
@@ -37,7 +53,20 @@ public class SupportSubjectMap {
         this.subjectMap = createSubjectMap(id, createTemplateTermSetByColumn(columnName), this.graph, this.rdfsType);
     }
 
+<<<<<<< HEAD
     public SupportSubjectMap(String id,String columnName,String rdfType,String graphUri) {
+=======
+    public SupportSubjectMap(String id,String columnName,List<String> rdfsType) {
+        this.id = id;
+        this.columnHNodeId = columnName;
+        this.rdfsType = createRdfsType(rdfsType);
+        this.rdfsTypeString = rdfsType;
+        this.subjectMap = createSubjectMap(id, createTemplateTermSetByColumn(columnName), this.graph, this.rdfsType);
+    }
+
+    public SupportSubjectMap(String id,String columnName,String rdfType,String graphUri) {
+        this.id = id;
+>>>>>>> origin/master
         this.columnHNodeId = columnName;
         this.rdfsType = createRdfsType(rdfType);
         this.rdfsTypeString = Collections.singletonList(rdfType);
@@ -157,6 +186,17 @@ public class SupportSubjectMap {
         this.rdfsTypeString = rdfsTypeString;
     }
 
+<<<<<<< HEAD
+=======
+    public SubjectMap getSubjectMap() {
+        return subjectMap;
+    }
+
+    public void setSubjectMap(SubjectMap subjectMap) {
+        this.subjectMap = subjectMap;
+    }
+
+>>>>>>> origin/master
     @Override
     public String toString() {
         return "SupportSubjectMap{" +
