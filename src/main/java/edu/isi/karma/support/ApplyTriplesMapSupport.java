@@ -2,24 +2,24 @@ package edu.isi.karma.support;
 
 import edu.isi.karma.kr2rml.*;
 import edu.isi.karma.kr2rml.planning.TriplesMap;
+import edu.isi.karma.kr2rml.template.ColumnTemplateTerm;
+import edu.isi.karma.kr2rml.template.StringTemplateTerm;
 import edu.isi.karma.kr2rml.template.TemplateTerm;
 import edu.isi.karma.kr2rml.template.TemplateTermSet;
 import edu.isi.karma.rep.alignment.Label;
 import edu.isi.karma.webserver.KarmaException;
-import edu.stanford.nlp.util.ArrayMap;
 import org.apache.commons.collections.map.LinkedMap;
-import org.apache.commons.collections.map.MultiKeyMap;
 import org.apache.commons.collections.map.MultiValueMap;
 
 import java.util.*;
 
-public class ApplyTripleMapSupport extends ApplyMappingSupport {
+public class ApplyTriplesMapSupport extends ApplyMappingSupport {
 
-    private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ApplyTripleMapSupport.class);
+    private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ApplyTriplesMapSupport.class);
 
     private LinkedMap linkTriples;
 
-    protected ApplyTripleMapSupport() {
+    protected ApplyTriplesMapSupport() {
         getTriplesMap();
         if(isOffline  && !isSetted){
             try {
@@ -31,20 +31,20 @@ public class ApplyTripleMapSupport extends ApplyMappingSupport {
         }
     }
 
-    protected ApplyTripleMapSupport(boolean isOffline) {
+    protected ApplyTriplesMapSupport(boolean isOffline) {
         this.isOffline = isOffline;
-        new ApplyTripleMapSupport();
+        new ApplyTriplesMapSupport();
     }
 
-    private static ApplyTripleMapSupport instance = null;
+    private static ApplyTriplesMapSupport instance = null;
 
-    public static ApplyTripleMapSupport getInstance(){
-        if(instance == null)  instance = new ApplyTripleMapSupport();
+    public static ApplyTriplesMapSupport getInstance(){
+        if(instance == null)  instance = new ApplyTriplesMapSupport();
         return instance;
     }
 
-    public static ApplyTripleMapSupport getInstance(boolean isOffline){
-        if(instance == null)  instance = new ApplyTripleMapSupport(isOffline);
+    public static ApplyTriplesMapSupport getInstance(boolean isOffline){
+        if(instance == null)  instance = new ApplyTriplesMapSupport(isOffline);
         return instance;
     }
 
@@ -190,6 +190,9 @@ public class ApplyTripleMapSupport extends ApplyMappingSupport {
     }
 
     //-------------------------------------------------------------------------------------------------
+
+
+
 
 
 }

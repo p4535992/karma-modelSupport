@@ -61,7 +61,7 @@ _:node19pn5vcthx3 km-dev:isPartOfMapping _:node19pn5vcthx1 ;
 	rr:template "{identifier}" ;
 	a km-dev:steinerTreeRootNode .
 
-km-dev:PredicateObjectMap_bec2c906-b3f9-4113-a86e-d3cce1138831 rr:predicate gr:hasPOS .
+km-dev:PredicateObjectMap_bec2c906-b3f9-4113-a86e-d3cce1138831 rr:listPredicate gr:hasPOS .
 
 km-dev:RefObjectMap_6b35b44a-c9e2-495d-909b-b033a3d766d1 a rr:RefObjectMap , rr:ObjectMap ;
 	rr:parentTriplesMap km-dev:TriplesMap_a61cd545-01ff-4eee-9d95-911b9d0e7111 ;
@@ -78,7 +78,7 @@ km-dev:PredicateObjectMap_bec2c906-b3f9-4113-a86e-d3cce1138831 a rr:PredicateObj
 
 _:node19pn5vcthx1 km-dev:hasPredicateObjectMap km-dev:PredicateObjectMap_bec2c906-b3f9-4113-a86e-d3cce1138831 .
 
-km-dev:PredicateObjectMap_79825cbb-cdf0-47af-9d24-d3e377bcc510 rr:predicate gr:legalName .
+km-dev:PredicateObjectMap_79825cbb-cdf0-47af-9d24-d3e377bcc510 rr:listPredicate gr:legalName .
 
 _:node19pn5vcthx4 rr:column "edificio" ;
 	a rr:ObjectMap ;
@@ -96,7 +96,7 @@ km-dev:PredicateObjectMap_79825cbb-cdf0-47af-9d24-d3e377bcc510 a rr:PredicateObj
 
 _:node19pn5vcthx1 km-dev:hasPredicateObjectMap km-dev:PredicateObjectMap_79825cbb-cdf0-47af-9d24-d3e377bcc510 .
 
-km-dev:PredicateObjectMap_9d3990c8-53f7-44de-9fe3-8bd54414bbc2 rr:predicate gr:vatID .
+km-dev:PredicateObjectMap_9d3990c8-53f7-44de-9fe3-8bd54414bbc2 rr:listPredicate gr:vatID .
 
 _:node19pn5vcthx5 rr:column "iva" ;
 	a rr:ObjectMap ;
@@ -114,7 +114,7 @@ km-dev:PredicateObjectMap_9d3990c8-53f7-44de-9fe3-8bd54414bbc2 a rr:PredicateObj
 
 _:node19pn5vcthx1 km-dev:hasPredicateObjectMap km-dev:PredicateObjectMap_9d3990c8-53f7-44de-9fe3-8bd54414bbc2 .
 
-km-dev:PredicateObjectMap_f7b9d09b-fe38-4bad-91b8-2ed08880473c rr:predicate schema:addressCountry .
+km-dev:PredicateObjectMap_f7b9d09b-fe38-4bad-91b8-2ed08880473c rr:listPredicate schema:addressCountry .
 
 _:node19pn5vcthx6 rr:column "nazione" ;
 	a rr:ObjectMap ;
@@ -132,7 +132,7 @@ km-dev:PredicateObjectMap_f7b9d09b-fe38-4bad-91b8-2ed08880473c a rr:PredicateObj
 
 _:node19pn5vcthx1 km-dev:hasPredicateObjectMap km-dev:PredicateObjectMap_f7b9d09b-fe38-4bad-91b8-2ed08880473c .
 
-km-dev:PredicateObjectMap_4a51830f-46e8-48f4-ac77-d20e26156c74 rr:predicate schema:addressLocality .
+km-dev:PredicateObjectMap_4a51830f-46e8-48f4-ac77-d20e26156c74 rr:listPredicate schema:addressLocality .
 
 _:node19pn5vcthx7 rr:column "city" ;
 	a rr:ObjectMap ;
@@ -150,7 +150,7 @@ km-dev:PredicateObjectMap_4a51830f-46e8-48f4-ac77-d20e26156c74 a rr:PredicateObj
 
 _:node19pn5vcthx1 km-dev:hasPredicateObjectMap km-dev:PredicateObjectMap_4a51830f-46e8-48f4-ac77-d20e26156c74 .
 
-km-dev:PredicateObjectMap_ea35fb7d-f79c-4c66-8c14-c799b9110f22 rr:predicate schema:addressRegion .
+km-dev:PredicateObjectMap_ea35fb7d-f79c-4c66-8c14-c799b9110f22 rr:listPredicate schema:addressRegion .
 
 _:node19pn5vcthx8 rr:column "provincia" ;
 	a rr:ObjectMap ;
@@ -168,7 +168,7 @@ km-dev:PredicateObjectMap_ea35fb7d-f79c-4c66-8c14-c799b9110f22 a rr:PredicateObj
 
 _:node19pn5vcthx1 km-dev:hasPredicateObjectMap km-dev:PredicateObjectMap_ea35fb7d-f79c-4c66-8c14-c799b9110f22 .
 
-km-dev:PredicateObjectMap_5bd90194-16b4-435f-93ad-8e8385a22eb0 rr:predicate schema:email .
+km-dev:PredicateObjectMap_5bd90194-16b4-435f-93ad-8e8385a22eb0 rr:listPredicate schema:email .
 
 _:node19pn5vcthx9 rr:column "email" ;
 	a rr:ObjectMap ;
@@ -186,7 +186,7 @@ km-dev:PredicateObjectMap_5bd90194-16b4-435f-93ad-8e8385a22eb0 a rr:PredicateObj
 
 _:node19pn5vcthx1 km-dev:hasPredicateObjectMap km-dev:PredicateObjectMap_5bd90194-16b4-435f-93ad-8e8385a22eb0 .
 
-km-dev:PredicateObjectMap_793c73d7-6a97-4b68-9a4d-87ebbbb6ab54 rr:predicate schema:faxNumber .
+km-dev:PredicateObjectMap_793c73d7-6a97-4b68-9a4d-87ebbbb6ab54 rr:listPredicate schema:faxNumber .
 
 _:node19pn5vcthx10 rr:column "fax" ;
 	a rr:ObjectMap ;
@@ -204,7 +204,7 @@ km-dev:PredicateObjectMap_793c73d7-6a97-4b68-9a4d-87ebbbb6ab54 a rr:PredicateObj
 
 _:node19pn5vcthx1 km-dev:hasPredicateObjectMap km-dev:PredicateObjectMap_793c73d7-6a97-4b68-9a4d-87ebbbb6ab54 .
 
-km-dev:PredicateObjectMap_d46fb50b-8a6b-437d-942c-2b8581700a0b rr:predicate schema:postalCode .
+km-dev:PredicateObjectMap_d46fb50b-8a6b-437d-942c-2b8581700a0b rr:listPredicate schema:postalCode .
 
 _:node19pn5vcthx11 rr:column "postalCode" ;
 	a rr:ObjectMap ;
@@ -222,7 +222,7 @@ km-dev:PredicateObjectMap_d46fb50b-8a6b-437d-942c-2b8581700a0b a rr:PredicateObj
 
 _:node19pn5vcthx1 km-dev:hasPredicateObjectMap km-dev:PredicateObjectMap_d46fb50b-8a6b-437d-942c-2b8581700a0b .
 
-km-dev:PredicateObjectMap_743c44e5-8c1e-48bb-9626-3e4403a57e01 rr:predicate schema:streetAddress .
+km-dev:PredicateObjectMap_743c44e5-8c1e-48bb-9626-3e4403a57e01 rr:listPredicate schema:streetAddress .
 
 _:node19pn5vcthx12 rr:column "indirizzo" ;
 	a rr:ObjectMap ;
@@ -240,7 +240,7 @@ km-dev:PredicateObjectMap_743c44e5-8c1e-48bb-9626-3e4403a57e01 a rr:PredicateObj
 
 _:node19pn5vcthx1 km-dev:hasPredicateObjectMap km-dev:PredicateObjectMap_743c44e5-8c1e-48bb-9626-3e4403a57e01 .
 
-km-dev:PredicateObjectMap_c7bd53d0-a135-41a7-9758-957daf82fca2 rr:predicate schema:telephone .
+km-dev:PredicateObjectMap_c7bd53d0-a135-41a7-9758-957daf82fca2 rr:listPredicate schema:telephone .
 
 _:node19pn5vcthx13 rr:column "telefono" ;
 	a rr:ObjectMap ;
@@ -258,7 +258,7 @@ km-dev:PredicateObjectMap_c7bd53d0-a135-41a7-9758-957daf82fca2 a rr:PredicateObj
 
 _:node19pn5vcthx1 km-dev:hasPredicateObjectMap km-dev:PredicateObjectMap_c7bd53d0-a135-41a7-9758-957daf82fca2 .
 
-km-dev:PredicateObjectMap_0febf9b9-edfa-497e-acfc-1b3c9b3bee8d rr:predicate schema:url .
+km-dev:PredicateObjectMap_0febf9b9-edfa-497e-acfc-1b3c9b3bee8d rr:listPredicate schema:url .
 
 _:node19pn5vcthx14 rr:column "url" ;
 	a rr:ObjectMap ;
@@ -276,7 +276,7 @@ km-dev:PredicateObjectMap_0febf9b9-edfa-497e-acfc-1b3c9b3bee8d a rr:PredicateObj
 
 _:node19pn5vcthx1 km-dev:hasPredicateObjectMap km-dev:PredicateObjectMap_0febf9b9-edfa-497e-acfc-1b3c9b3bee8d .
 
-km-dev:PredicateObjectMap_d2f3c548-1d87-4628-b165-2deab3033516 rr:predicate skos:note .
+km-dev:PredicateObjectMap_d2f3c548-1d87-4628-b165-2deab3033516 rr:listPredicate skos:note .
 
 _:node19pn5vcthx15 rr:column "description" ;
 	a rr:ObjectMap ;
@@ -317,7 +317,7 @@ _:node19pn5vcthx17 km-dev:isPartOfMapping _:node19pn5vcthx1 ;
 	rr:class gr:Location ;
 	rr:template "{name_location}" .
 
-km-dev:PredicateObjectMap_1df9a17b-1487-4c36-9cb8-d0c2f812d335 rr:predicate geo:lat .
+km-dev:PredicateObjectMap_1df9a17b-1487-4c36-9cb8-d0c2f812d335 rr:listPredicate geo:lat .
 
 _:node19pn5vcthx18 rr:column "latitude" ;
 	a rr:ObjectMap ;
@@ -335,7 +335,7 @@ km-dev:PredicateObjectMap_1df9a17b-1487-4c36-9cb8-d0c2f812d335 a rr:PredicateObj
 
 _:node19pn5vcthx1 km-dev:hasPredicateObjectMap km-dev:PredicateObjectMap_1df9a17b-1487-4c36-9cb8-d0c2f812d335 .
 
-km-dev:PredicateObjectMap_60efc936-89f5-465d-b61e-0c2be0ecc6d9 rr:predicate geo:long .
+km-dev:PredicateObjectMap_60efc936-89f5-465d-b61e-0c2be0ecc6d9 rr:listPredicate geo:long .
 
 _:node19pn5vcthx19 rr:column "longitude" ;
 	a rr:ObjectMap ;
