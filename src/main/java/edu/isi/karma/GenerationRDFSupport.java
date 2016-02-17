@@ -13,6 +13,8 @@ import edu.isi.karma.webserver.KarmaException;
 
 import java.io.*;
 import java.lang.reflect.Array;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
@@ -436,6 +438,29 @@ public class GenerationRDFSupport {
             return find[1].substring(0, find[1].length() - 1);
         }
         throw new IllegalArgumentException("couldn't find pattern '" + pat.toString() + "' in '" + url + "'");
+    }
+
+    public enum DATABASE_URL{ HOST,PATH,USERNAME,PASSWORD,DRIVER,PORT}
+
+    private static String getInfoFromUrl(String url,DATABASE_URL database_url){
+        URI dbUri;
+        String urlPart = database_url.name();
+        try {
+            dbUri = new URI(System.getenv(url));
+            switch(urlPart){
+                case "HOST": return dbUri.getHost();
+                case "DRIVER":return dbUri.getScheme();
+                case "USERNAME":return dbUri.getUserInfo().split(":")[0];
+                case "PASSWORD": return dbUri.getUserInfo().split(":")[1];
+                case "PATH": return dbUri.getPath();
+                case "PORT": return String.valueOf(dbUri.getPort());
+                default: return "N/A";
+            }
+
+        } catch (URISyntaxException e) {
+            logger.error("Couldn't find pattern '" + urlPart + "' in '" + url + "':"+e.getMessage(),e);
+            return "N/A";
+        }
     }
 
 
